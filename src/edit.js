@@ -8,19 +8,22 @@ function Edit({ attributes, setAttributes }) {
 	const addNewTab = (tabId) => {
 		const newTab = {
 			id: `${tabId}`,
-			title: `title${tabId}`,
+			title: `title-${tabId}`,
 			active: false
 		}
 		setAttributes({ tabs: [...tabs, newTab] })
 	}
 
+	const onChangeTitle = (newText, id) => {
+		setAttributes(tabs.find(t => t.id === id).title = newText);
+	}
 
 	return (
 		<div {...useBlockProps()}>
 			<div className='tab-header'>
 				<div className='tab-list'>
 					{tabs?.map((tab, index) => {
-						return <RichText onClick={() => setAttributes({ active_tab: tab.id })} className='tab-button' key={index}>{tab.title}</RichText>
+						return <RichText onClick={() => setAttributes({ active_tab: tab.id })} className='tab-button' key={index} onChange={(e) => onChangeTitle(e, tab.id)} value={tab.title}></RichText>
 					})}
 				</div>
 				<div className='add-more-btn'><button onClick={() => addNewTab(tabs?.length + 1)} className='tab-button'>+</button></div>

@@ -34,12 +34,15 @@ function Edit({
   const addNewTab = tabId => {
     const newTab = {
       id: `${tabId}`,
-      title: `title${tabId}`,
+      title: `title-${tabId}`,
       active: false
     };
     setAttributes({
       tabs: [...tabs, newTab]
     });
+  };
+  const onChangeTitle = (newText, id) => {
+    setAttributes(tabs.find(t => t.id === id).title = newText);
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
@@ -53,8 +56,10 @@ function Edit({
         active_tab: tab.id
       }),
       className: "tab-button",
-      key: index
-    }, tab.title);
+      key: index,
+      onChange: e => onChangeTitle(e, tab.id),
+      value: tab.title
+    });
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "add-more-btn"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
