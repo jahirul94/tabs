@@ -1,0 +1,47 @@
+{
+  "apiVersion": 3,
+  "name": "create-block/demo-tabs",
+  "version": "0.1.0",
+  "title": "Demo Tabs",
+  "category": "widgets",
+  "description": "Example block scaffolded with Create Block tool.",
+  "example": {},
+  "supports": {
+    "html": false
+  },
+  "keywords": [
+    "demo",
+    "tabs"
+  ],
+  "attributes": {
+    "tabs": {
+      "type": "array",
+      "default": [
+        {
+          "id": "1",
+          "title": "title1",
+          "active": true
+        },
+        {
+          "id": "2",
+          "title": "title2",
+          "active": false
+        },
+        {
+          "id": "3",
+          "title": "title3",
+          "active": false
+        }
+      ]
+    },
+    "active_tab": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "textdomain": "demo-tabs",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
+}

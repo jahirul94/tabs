@@ -1,0 +1,35 @@
+/*!***************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/style.scss ***!
+  \***************************************************************************************************************************************************************************************************************************************/
+.tab-button {
+  background-color: transparent;
+  border: 2px solid #007bff;
+  color: #007bff;
+  padding: 10px 20px;
+  font-size: 17px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.tab-button:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.tab-header {
+  width: 100%;
+  display: flex;
+}
+
+.tab-list {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.add-more-btn {
+  width: 10%;
+}
+
+/*# sourceMappingURL=style-index.css.map*/
