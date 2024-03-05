@@ -1,9 +1,11 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, InnerBlocks, RichText } from '@wordpress/block-editor';
+import { useBlockProps, InnerBlocks, RichText, BlockControls } from '@wordpress/block-editor';
 import './editor.scss';
 import Tab from './tab';
 import { useState } from '@wordpress/element';
 import { useEffect } from '@wordpress/element';
+import { ToolbarButton } from '@wordpress/components';
+
 
 
 function Edit({ attributes, setAttributes }) {
@@ -12,7 +14,7 @@ function Edit({ attributes, setAttributes }) {
 	const addNewTab = (tabId) => {
 		const newTab = {
 			id: `${tabId}`,
-			title: `title-${tabId}`,
+			title: `Tab-${tabId}`,
 			active: false,
 		};
 		setAttributes({ tabs: [...tabs, newTab] });
@@ -40,6 +42,12 @@ function Edit({ attributes, setAttributes }) {
 		setAttributes({ active_tab: "1" })
 	}, [])
 
+	const deleteTab = (id) => {
+		const updatedTabs = tabs.filter(tab => tab.id !== id);
+		const updatedTabsData = tabs_data.filter(data => data.tabId !== id);
+		setAttributes({ tabs: updatedTabs, tabs_data: updatedTabsData });
+	}
+
 	return (
 		<div {...useBlockProps()}>
 			<div className="tab-header">
@@ -65,6 +73,11 @@ function Edit({ attributes, setAttributes }) {
 						+
 					</button>
 				</div>
+				<BlockControls group='inline'>
+					<ToolbarButton onClick={() => deleteTab(active_tab)} >
+						{__('Remove Tab', 'demo-tabs')}
+					</ToolbarButton>
+				</BlockControls>
 			</div>
 			<div>
 				{tabs?.map((tab) => (

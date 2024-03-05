@@ -22,6 +22,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tab__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./tab */ "./src/tab.js");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__);
+
 
 
 
@@ -42,7 +45,7 @@ function Edit({
   const addNewTab = tabId => {
     const newTab = {
       id: `${tabId}`,
-      title: `title-${tabId}`,
+      title: `Tab-${tabId}`,
       active: false
     };
     setAttributes({
@@ -72,6 +75,14 @@ function Edit({
       active_tab: "1"
     });
   }, []);
+  const deleteTab = id => {
+    const updatedTabs = tabs.filter(tab => tab.id !== id);
+    const updatedTabsData = tabs_data.filter(data => data.tabId !== id);
+    setAttributes({
+      tabs: updatedTabs,
+      tabs_data: updatedTabsData
+    });
+  };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -92,7 +103,11 @@ function Edit({
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     onClick: () => addNewTab(tabs?.length + 1),
     className: "tab-button"
-  }, "+"))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, tabs?.map(tab => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, "+")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
+    group: "inline"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToolbarButton, {
+    onClick: () => deleteTab(active_tab)
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove Tab', 'demo-tabs')))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, tabs?.map(tab => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     key: tab.id,
     style: {
       display: tab.id === active_tab ? 'block' : 'none'
@@ -267,6 +282,16 @@ module.exports = window["wp"]["blockEditor"];
 /***/ ((module) => {
 
 module.exports = window["wp"]["blocks"];
+
+/***/ }),
+
+/***/ "@wordpress/components":
+/*!************************************!*\
+  !*** external ["wp","components"] ***!
+  \************************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["components"];
 
 /***/ }),
 

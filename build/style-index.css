@@ -5,11 +5,10 @@
   background-color: transparent;
   border: 2px solid #007bff;
   color: #007bff;
-  padding: 10px 20px;
   font-size: 17px;
   cursor: pointer;
   transition: all 0.3s ease;
-  width: 100%;
+  padding: 10px;
 }
 
 .tab-button:hover {
@@ -20,16 +19,19 @@
 .tab-header {
   width: 100%;
   display: flex;
+  align-items: center;
 }
 
 .tab-list {
-  width: 90%;
-  display: flex;
-  justify-content: space-between;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 8px;
 }
 
 .add-more-btn {
   width: 10%;
+  margin: 8px;
 }
 
 /*# sourceMappingURL=style-index.css.map*/
