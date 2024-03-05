@@ -1,0 +1,52 @@
+.modal-active {
+	display: block;
+}
+
+.modal-hidden {
+	display: none;
+}
+
+
+#modal-button {
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	font-size: 18px;
+	width: 150px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+#modal-button:hover {
+	background-color: #0056b3;
+}
+
+#modal-content {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	max-width: 90%;
+	animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+.close-btn-div {
+	position: absolute;
+}
+
+.modal-close-btn {
+	position: relative;
+	left: 520px;
+	font-size: 30px;
+}

@@ -28,3 +28,14 @@ function demo_tabs_block_init() {
 	register_block_type( __DIR__ . '/build' );
 }
 add_action( 'init', 'demo_tabs_block_init' );
+
+function wp_assets_enqueue() {
+	wp_enqueue_script( 'wp-custom-js', plugin_dir_url( __FILE__ ) . './src/js/frontend.js', array( 'jquery' ), time(), true );
+	wp_enqueue_script( 'wp-modal-js', plugin_dir_url( __FILE__ ) . './src/js/modal.js', array( 'jquery' ), time(), true );
+
+	wp_enqueue_style( 'wp-modal-css', plugin_dir_url( __FILE__ ) . './src/modal/style/modal.css' );
+
+	wp_enqueue_style( 'wp-modal-editor-css', plugin_dir_url( __FILE__ ) . './src/modal/style/editor.css' );
+}
+
+add_action( 'wp_enqueue_scripts', 'wp_assets_enqueue' );
