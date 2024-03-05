@@ -34,9 +34,33 @@
         }
       ]
     },
+    "tabs_data": {
+      "type": "array",
+      "default": [
+        {
+          "tabId": "1",
+          "title": "demo title 1",
+          "url": ""
+        },
+        {
+          "tabId": "2",
+          "title": "demo title 2",
+          "url": ""
+        },
+        {
+          "tabId": "3",
+          "title": "demo title 3",
+          "url": ""
+        }
+      ]
+    },
     "active_tab": {
       "type": "string",
-      "default": ""
+      "default": "1"
+    },
+    "image": {
+      "type": "object",
+      "default": {}
     }
   },
   "textdomain": "demo-tabs",

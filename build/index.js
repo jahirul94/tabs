@@ -19,6 +19,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./editor.scss */ "./src/editor.scss");
+/* harmony import */ var _tab__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./tab */ "./src/tab.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__);
+
+
+
 
 
 
@@ -29,8 +35,10 @@ function Edit({
 }) {
   const {
     tabs,
-    active_tab
+    active_tab,
+    tabs_data
   } = attributes;
+  const [activeTd, setActiveTd] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useState)();
   const addNewTab = tabId => {
     const newTab = {
       id: `${tabId}`,
@@ -40,10 +48,30 @@ function Edit({
     setAttributes({
       tabs: [...tabs, newTab]
     });
+    const newData = {
+      tabId: `${tabId}`,
+      title: `demo title ${tabId}`,
+      url: ''
+    };
+    setAttributes({
+      tabs_data: [...tabs_data, newData]
+    });
   };
   const onChangeTitle = (newText, id) => {
     setAttributes(tabs.find(t => t.id === id).title = newText);
   };
+  const tabButtonClicked = (tabId, tabs_data) => {
+    setAttributes({
+      active_tab: tabId
+    });
+    const data = tabs_data.find(td => td.tabId === tabId);
+    setActiveTd(data);
+  };
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useEffect)(() => {
+    setAttributes({
+      active_tab: "1"
+    });
+  }, []);
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -52,10 +80,9 @@ function Edit({
     className: "tab-list"
   }, tabs?.map((tab, index) => {
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
-      onClick: () => setAttributes({
-        active_tab: tab.id
-      }),
+      onClick: () => tabButtonClicked(tab.id, tabs_data),
       className: "tab-button",
+      tagName: "p",
       key: index,
       onChange: e => onChangeTitle(e, tab.id),
       value: tab.title
@@ -65,11 +92,17 @@ function Edit({
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     onClick: () => addNewTab(tabs?.length + 1),
     className: "tab-button"
-  }, "+"))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
-    allowedBlocks: ['core/image'],
-    template: [['core/image']],
-    templateLock: "insert"
-  })));
+  }, "+"))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, tabs?.map(tab => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    key: tab.id,
+    style: {
+      display: tab.id === active_tab ? 'block' : 'none'
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_tab__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    data: activeTd,
+    setAttributes: setAttributes,
+    tabs_data: tabs_data,
+    active_tab: active_tab
+  })))));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Edit);
 
@@ -84,17 +117,19 @@ function Edit({
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/style.scss");
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/save.js");
+/* harmony import */ var _tab__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tab */ "./src/tab.js");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style.scss */ "./src/style.scss");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./edit */ "./src/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./save */ "./src/save.js");
+
 
 
 
 
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)('create-block/demo-tabs', {
   icon: 'admin-generic',
-  edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],
-  save: _save__WEBPACK_IMPORTED_MODULE_3__["default"]
+  edit: _edit__WEBPACK_IMPORTED_MODULE_3__["default"],
+  save: _save__WEBPACK_IMPORTED_MODULE_4__["default"]
 });
 
 /***/ }),
@@ -120,6 +155,64 @@ function save() {
     ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save()
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks.Content, null));
 }
+
+/***/ }),
+
+/***/ "./src/tab.js":
+/*!********************!*\
+  !*** ./src/tab.js ***!
+  \********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function Tab({
+  data,
+  setAttributes,
+  tabs_data,
+  active_tab
+}) {
+  const title = data?.title;
+  const onChangeTitle = (newTitle, tabId) => {
+    if (tabId) {
+      const updatedTabs = tabs_data.map(tab => {
+        if (tab.tabId === tabId) {
+          return {
+            ...tab,
+            title: newTitle
+          };
+        }
+        return tab;
+      });
+      setAttributes({
+        tabs_data: updatedTabs
+      });
+    }
+  };
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
+    tagName: "p",
+    value: title ? title : "Enter a Title",
+    placeholder: "Enter Name",
+    onChange: e => {
+      onChangeTitle(e, data.tabId, tabs_data);
+    }
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
+    tagName: "p",
+    placeholder: "Enter age",
+    onChange: e => {
+      // setTabValues(e, 'ageChange', data.tabId)
+    }
+  }));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Tab);
 
 /***/ }),
 
@@ -174,6 +267,16 @@ module.exports = window["wp"]["blockEditor"];
 /***/ ((module) => {
 
 module.exports = window["wp"]["blocks"];
+
+/***/ }),
+
+/***/ "@wordpress/element":
+/*!*********************************!*\
+  !*** external ["wp","element"] ***!
+  \*********************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["element"];
 
 /***/ }),
 
