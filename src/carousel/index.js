@@ -3,11 +3,11 @@ import { __ } from '@wordpress/i18n';
 import Edit from './edit';
 import save from './save';
 
-registerBlockType('create-block/demo-tab', {
-    title: __('Demo Tab', 'demo-tabs'),
-    description: __('Demo Tab description', 'demo-tabs'),
+registerBlockType('create-block/carousel', {
+    title: __('Demo Carousel', 'demo-tabs'),
+    description: __('Demo Carousel description', 'demo-tabs'),
     icon: 'admin-media',
-    keywords: ['demo', 'tab'],
+    keywords: ['demo', 'carousel'],
     icon: 'admin-generic',
     edit: Edit,
     save,
