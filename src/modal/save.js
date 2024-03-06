@@ -2,7 +2,7 @@ import { InnerBlocks, RichText, useBlockProps } from '@wordpress/block-editor';
 import { Dashicon } from '@wordpress/components';
 
 function save({ attributes }) {
-	const { name, age, email, openButton, closeButton, openIcon, closeIcon, buttonType, buttonLayout, buttonBgColor, buttonColor, buttonFontSize, modalHeadingTagName } = attributes;
+	const { name, age, email, openButton, closeButton, openIcon, closeIcon, buttonType, buttonLayout, buttonBgColor, buttonColor, buttonFontSize, modalHeadingTagName, modalWidth, modalBorderRadius, modalTextAlign } = attributes;
 
 	let styles = buttonLayout === 'custom' ? { backgroundColor: buttonBgColor, color: buttonColor, fontSize: buttonFontSize + 'px' } : {};
 	let classNames = `${buttonLayout === 'primary' && 'modal-primary-button'}
@@ -10,22 +10,23 @@ function save({ attributes }) {
 	${buttonLayout === 'custom' && 'custom-button'}`
 
 	return (
-		<div {...useBlockProps.save({
-			className: 'modal-body'
-		})}>
+		<div
+			{...useBlockProps.save({
+				className: 'modal-body'
+			})}>
 			<div className='modal-header'>
 				<button style={styles} className={classNames} id='modal-button' >{buttonType === 'textBox' && openButton || buttonType === 'icon' && <Dashicon icon={openIcon} /> || buttonType === 'default' && 'Open Modal'}</button>
 			</div>
-			<div className='close-btn-section'>
-				<button id='modal-close' className='modal-close-button'>{buttonType === 'textBox' && closeButton || buttonType === 'icon' && <Dashicon icon={closeIcon} /> || buttonType === 'default' && 'X'}</button>
+			<div style={{ width: modalWidth + 'px' }} className='close-btn-section'>
+				<button style={styles} className={classNames} id='modal-close' >{buttonType === 'textBox' && closeButton || buttonType === 'icon' && <Dashicon icon={closeIcon} /> || buttonType === 'default' && 'X'}</button>
 			</div>
-			<div id='modal-content' className='modal-hidden'>
+			<div style={{ width: modalWidth + 'px', borderRadius: modalBorderRadius + 'px', textAlign: modalTextAlign }} id='modal-content' className='modal-hidden'>
 				<RichText.Content tagName={modalHeadingTagName} value={name} />
 				<RichText.Content tagName='h4' value={age} />
 				<RichText.Content tagName='h4' value={email} />
 				<InnerBlocks.Content />
 			</div>
-		</div>
+		</div >
 	);
 }
 export default save;

@@ -42,7 +42,7 @@ const Modal = ({
     id: "modal-content"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
     tagName: modalHeadingTagName,
-    placeholder: "Enter your name",
+    placeholder: "Modal Title",
     value: name,
     onChange: newName => {
       setAttributes({
@@ -51,7 +51,7 @@ const Modal = ({
     }
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
     tagName: "h5",
-    placeholder: "Enter your age",
+    placeholder: "Enter text",
     value: age,
     onChange: newAge => {
       setAttributes({
@@ -60,7 +60,7 @@ const Modal = ({
     }
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
     tagName: "h5",
-    placeholder: "Enter your Address",
+    placeholder: "Enter descriptions",
     value: email,
     onChange: newEmail => {
       setAttributes({
@@ -68,7 +68,7 @@ const Modal = ({
       });
     }
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks, {
-    allowedBlocks: ['core/image', 'core/gallery', 'core/paragraph'],
+    allowedBlocks: ['core/image', 'core/gallery', 'core/paragraph', 'core/video'],
     template: [['core/image']]
   }));
 };
@@ -411,8 +411,8 @@ function Edit({
       justifyContent: 'space-between'
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Modal width"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "px")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.RangeControl, {
-    min: 0,
-    max: 630,
+    min: 280,
+    max: 600,
     onChange: c => setAttributes({
       modalWidth: c
     }),
@@ -543,7 +543,7 @@ __webpack_require__.r(__webpack_exports__);
       default: '600'
     },
     modalBorderRadius: {
-      type: 'string',
+      type: 'number',
       default: '0'
     },
     modalTextAlign: {
@@ -596,7 +596,10 @@ function save({
     buttonBgColor,
     buttonColor,
     buttonFontSize,
-    modalHeadingTagName
+    modalHeadingTagName,
+    modalWidth,
+    modalBorderRadius,
+    modalTextAlign
   } = attributes;
   let styles = buttonLayout === 'custom' ? {
     backgroundColor: buttonBgColor,
@@ -619,13 +622,22 @@ function save({
   }, buttonType === 'textBox' && openButton || buttonType === 'icon' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Dashicon, {
     icon: openIcon
   }) || buttonType === 'default' && 'Open Modal')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      width: modalWidth + 'px'
+    },
     className: "close-btn-section"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-    id: "modal-close",
-    className: "modal-close-button"
+    style: styles,
+    className: classNames,
+    id: "modal-close"
   }, buttonType === 'textBox' && closeButton || buttonType === 'icon' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Dashicon, {
     icon: closeIcon
   }) || buttonType === 'default' && 'X')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      width: modalWidth + 'px',
+      borderRadius: modalBorderRadius + 'px',
+      textAlign: modalTextAlign
+    },
     id: "modal-content",
     className: "modal-hidden"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText.Content, {

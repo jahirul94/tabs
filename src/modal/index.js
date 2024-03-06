@@ -56,7 +56,7 @@ registerBlockType('create-block/modal', {
             default: '600'
         },
         modalBorderRadius: {
-            type: 'string',
+            type: 'number',
             default: '0'
         },
         modalTextAlign: {

@@ -105,7 +105,7 @@ function Edit({ attributes, setAttributes }) {
 							<p>Modal width</p>
 							<p>px</p>
 						</div>
-						<RangeControl min={0} max={630} onChange={(c) => setAttributes({ modalWidth: c })} value={modalWidth} />
+						<RangeControl min={280} max={600} onChange={(c) => setAttributes({ modalWidth: c })} value={modalWidth} />
 
 						{/* contend borderRadius  */}
 						<div style={{ display: 'flex', justifyContent: 'space-between' }}>
