@@ -19,6 +19,55 @@ registerBlockType('create-block/modal', {
         email: {
             type: 'string'
         },
+        buttonType: {
+            type: 'string',
+            default: 'default'
+        },
+        openButton: {
+            type: 'string'
+        },
+        closeButton: {
+            type: 'string'
+        },
+        openIcon: {
+            type: 'string'
+        },
+        closeIcon: {
+            type: 'string'
+        },
+        buttonLayout: {
+            type: 'string',
+            default: 'primary'
+        },
+        buttonBgColor: {
+            type: 'string',
+            default: '#007bff'
+        },
+        buttonColor: {
+            type: 'string',
+            default: '#fff'
+        },
+        buttonFontSize: {
+            type: 'string',
+            default: '17'
+        },
+        modalWidth: {
+            type: 'string',
+            default: '600'
+        },
+        modalBorderRadius: {
+            type: 'string',
+            default: '0'
+        },
+        modalTextAlign: {
+            type: 'string',
+            default: 'left'
+        },
+        modalHeadingTagName: {
+            type: 'string',
+            default: 'h5'
+        },
+
     },
     edit: Edit,
     save,

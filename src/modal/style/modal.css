@@ -7,7 +7,7 @@
 }
 
 
-#modal-button {
+.modal-open-button {
 	background-color: #007bff;
 	color: #fff;
 	border: none;
@@ -16,19 +16,23 @@
 	width: 150px;
 	cursor: pointer;
 	transition: background-color 0.3s ease;
+	margin-bottom: 5px;
 }
 
-#modal-button:hover {
+.modal-open-button:hover {
 	background-color: #0056b3;
 }
 
 #modal-content {
 	background-color: #fff;
-	padding: 20px;
-	border-radius: 5px;
+	padding: 20px 20px 5px 20px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-	max-width: 90%;
 	animation: fadeIn 0.5s ease;
+}
+
+#modal-content h4 {
+	padding: 5px;
+	margin: 8px;
 }
 
 @keyframes fadeIn {
@@ -41,12 +45,62 @@
 	}
 }
 
-.close-btn-div {
-	position: absolute;
+.close-btn-section {
+	display: flex;
+	justify-content: end;
+	margin-right: 5px;
 }
 
-.modal-close-btn {
-	position: relative;
-	left: 520px;
+.modal-close-button {
 	font-size: 30px;
+	font-weight: 700;
+}
+
+.modal-body {
+	margin: 0;
+	padding: 0;
+}
+
+
+/* modal-buttons  */
+.modal-primary-button {
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	font-size: 18px;
+	width: 150px;
+	cursor: pointer;
+	transition: background-color 0.5s ease;
+	margin-bottom: 5px;
+}
+
+.modal-secondary-button {
+	padding: 10px 20px;
+	background-color: #fff;
+	color: black;
+	font-size: 16px;
+	font-weight: bold;
+	border: 1px solid gray;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.modal-secondary-button:hover {
+	background-color: #007bff;
+	color: #fff;
+}
+
+/* custom button  */
+.custom-button {
+	padding: 10px 20px;
+	font-weight: bold;
+	border: 1px solid gray;
+	cursor: pointer;
+}
+
+.custom-button-border {
+	font-weight: bold;
+	border: 1px solid gray;
+	cursor: pointer;
 }
