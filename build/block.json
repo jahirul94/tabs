@@ -85,6 +85,10 @@
     "tabHeadingTagName": {
       "type": "string",
       "default": "h4"
+    },
+    "settingsPanelState": {
+      "type": "string",
+      "default": "general"
     }
   },
   "textdomain": "demo-tabs",

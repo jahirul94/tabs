@@ -9,7 +9,10 @@
 	"supports": {
 		"html": false
 	},
-	"keywords": [ "demo", "tabs" ],
+	"keywords": [
+		"demo",
+		"tabs"
+	],
 	"attributes": {
 		"tabs": {
 			"type": "array",
@@ -82,6 +85,10 @@
 		"tabHeadingTagName": {
 			"type": "string",
 			"default": "h4"
+		},
+		"settingsPanelState": {
+			"type": "string",
+			"default": "general"
 		}
 	},
 	"textdomain": "demo-tabs",

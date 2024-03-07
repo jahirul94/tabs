@@ -11,17 +11,20 @@ import Tab from './tab';
 import { useState } from '@wordpress/element';
 import { useEffect } from '@wordpress/element';
 import {
-	Button,
-	ButtonGroup,
 	MenuGroup,
 	PanelBody,
 	ToolbarButton,
 	Tooltip,
 	__experimentalDivider as Divider,
+	__experimentalToggleGroupControl as ToggleGroupControl,
+	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
+import GeneralSettings from './components/tabs/generalSettings';
+import StyleSettings from './components/tabs/styleSettings';
+import AdvanceSettings from './components/tabs/advanceSettings';
 
 function Edit({ attributes, setAttributes }) {
-	const { tabs, active_tab, tabs_data, tabsColor } = attributes;
+	const { tabs, active_tab, tabs_data, tabsColor, settingsPanelState } = attributes;
 	const [activeTd, setActiveTd] = useState();
 	const tabTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'];
 
@@ -73,23 +76,6 @@ function Edit({ attributes, setAttributes }) {
 		setAttributes({ tabs: updatedTabs, tabs_data: updatedTabsData });
 	};
 
-	// function for change tab content color and background color
-	const onChangeTabColor = (color, activeTab, action) => {
-		if (activeTab) {
-			const updatedTabsColor = tabsColor?.map((tc) => {
-				if (tc.tabId == activeTab) {
-					if (action === 'textColor') {
-						return { ...tc, textColor: color };
-					} else {
-						return { ...tc, bgColor: color };
-					}
-				}
-				return tc;
-			});
-			setAttributes({ tabsColor: updatedTabsColor });
-		}
-	};
-
 	return (
 		<div {...useBlockProps()}>
 			<div className="tab-header">
@@ -135,68 +121,23 @@ function Edit({ attributes, setAttributes }) {
 					<PanelBody
 						title={__('Tab Settings Panel', 'demo-tabs')}
 					>
+						{/* panel body header  */}
+						<ToggleGroupControl onChange={(state) => setAttributes({ settingsPanelState: state })} value={settingsPanelState} isBlock>
+							<ToggleGroupControlOption value="general" label="General" />
+							<ToggleGroupControlOption value="styles" label="Styles" />
+							<ToggleGroupControlOption value="advanced" label="Advanced" />
+						</ToggleGroupControl>
+
+						{/* general settings components  */}
 						<Divider />
-						<MenuGroup
-							label={__('Tab Heading Tag Name', 'demo-tabs')}
-						>
-							<ButtonGroup
-								style={{
-									display: 'flex',
-									justifyContent: 'center',
-								}}
-							>
-								{tabTags?.map((tag, i) => (
-									<div key={i}>
-										<Button
-											onClick={() =>
-												setAttributes({
-													tabHeadingTagName: tag,
-												})
-											}
-										>
-											{tag}
-										</Button>
-									</div>
-								))}
-							</ButtonGroup>
-						</MenuGroup>
+						{settingsPanelState === 'general' && <GeneralSettings tabTags={tabTags} attributes={attributes} setAttributes={setAttributes} />}
 						<Divider />
-						<MenuGroup label={__('Color Panel', 'demo-tabs')}>
-							<Tooltip text="Tab Color information">
-								<h3>Choose Text Color</h3>
-								<ColorPalette
-									value={
-										tabsColor?.find(
-											(t) => t.tabId == active_tab
-										).textColor
-									}
-									onChange={(c) =>
-										onChangeTabColor(
-											c,
-											active_tab,
-											'textColor'
-										)
-									}
-								/>
-							</Tooltip>
-							<Tooltip text="Tab Background Color information">
-								<h3>Choose Background Color</h3>
-								<ColorPalette
-									value={
-										tabsColor?.find(
-											(t) => t.tabId == active_tab
-										).bgColor
-									}
-									onChange={(c) =>
-										onChangeTabColor(
-											c,
-											active_tab,
-											'bgColor'
-										)
-									}
-								/>
-							</Tooltip>
-						</MenuGroup>
+
+						{/* styles settings components  */}
+						{settingsPanelState === 'styles' && <StyleSettings attributes={attributes} setAttributes={setAttributes} />}
+
+						{/* advance settings components  */}
+						{settingsPanelState === 'advance' && <AdvanceSettings attributes={attributes} setAttributes={setAttributes} />}
 					</PanelBody>
 				</InspectorControls>
 			</div>
@@ -225,7 +166,7 @@ function Edit({ attributes, setAttributes }) {
 					</div>
 				))}
 			</div>
-		</div>
+		</div >
 	);
 }
 
