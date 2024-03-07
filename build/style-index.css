@@ -5,10 +5,9 @@
   background-color: transparent;
   border: 2px solid #007bff;
   color: #007bff;
-  font-size: 17px;
   cursor: pointer;
-  transition: all 0.3s ease;
   padding: 10px;
+  margin: 0;
 }
 
 .tab-button:hover {
@@ -22,16 +21,32 @@
   align-items: center;
 }
 
-.tab-list {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-gap: 6px;
+@media (max-width: 576px) {
+  .tab-list {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 3px;
+  }
 }
-
+@media (min-width: 577px) and (max-width: 992px) {
+  .tab-list {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 5px;
+  }
+}
+@media (min-width: 993px) {
+  .tab-list {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 6px;
+  }
+}
 .add-more-btn {
   width: 100%;
-  margin: 20px 0px 0px 0px;
 }
 
 .active {

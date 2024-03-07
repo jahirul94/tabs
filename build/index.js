@@ -211,10 +211,15 @@ function Edit({
       value: tab.title
     }), index === tabs?.length - 1 && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "add-more-btn"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText.Content, {
+      style: {
+        textAlign: 'center'
+      },
+      tagName: "p",
       onClick: () => addNewTab(tabs?.length + 1),
-      className: "tab-button"
-    }, "+")));
+      className: "tab-button",
+      value: "+"
+    })));
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
     group: "inline"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToolbarButton, {
