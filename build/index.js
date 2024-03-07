@@ -798,15 +798,15 @@ function save({
     className: "tab-content-frontend"
   }, tabs_data?.map(td => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
-      color: tabsColor?.find(t => t.tabId == td.tabId).textColor,
-      backgroundColor: tabsColor?.find(t => t.tabId == td.tabId).bgColor
+      color: tabsColor?.find(t => t.tabId == td.tabId)?.textColor,
+      backgroundColor: tabsColor?.find(t => t.tabId == td.tabId)?.bgColor
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     key: td.id,
     className: `div-data-${td.tabId} btn-all inactive tab-content`
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText.Content, {
     style: {
-      color: tabsColor?.find(t => t.tabId == td.tabId).textColor
+      color: tabsColor?.find(t => t.tabId == td.tabId)?.textColor
     },
     value: td.title,
     tagName: tabHeadingTagName
