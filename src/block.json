@@ -9,10 +9,7 @@
 	"supports": {
 		"html": false
 	},
-	"keywords": [
-		"demo",
-		"tabs"
-	],
+	"keywords": [ "demo", "tabs" ],
 	"attributes": {
 		"tabs": {
 			"type": "array",
@@ -40,27 +37,51 @@
 				{
 					"tabId": "1",
 					"title": "demo title 1",
-					"url": ""
+					"desc": ""
 				},
 				{
 					"tabId": "2",
 					"title": "demo title 2",
-					"url": ""
+					"desc": ""
 				},
 				{
 					"tabId": "3",
 					"title": "demo title 3",
-					"url": ""
+					"desc": ""
+				}
+			]
+		},
+		"tabsColor": {
+			"type": "array",
+			"default": [
+				{
+					"textColor": "#000000",
+					"bgColor": "#F9F9F9",
+					"tabId": "1"
+				},
+				{
+					"textColor": "#000000",
+					"bgColor": "#F9F9F9",
+					"tabId": "2"
+				},
+				{
+					"textColor": "#000000",
+					"bgColor": "#F9F9F9",
+					"tabId": "3"
 				}
 			]
 		},
 		"active_tab": {
-			"type": "string",
+			"type": "number",
 			"default": "1"
 		},
 		"image": {
 			"type": "object",
 			"default": {}
+		},
+		"tabHeadingTagName": {
+			"type": "string",
+			"default": "h4"
 		}
 	},
 	"textdomain": "demo-tabs",

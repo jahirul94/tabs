@@ -113,9 +113,17 @@ function Edit({
   const {
     tabs,
     active_tab,
-    tabs_data
+    tabs_data,
+    tabsColor
   } = attributes;
   const [activeTd, setActiveTd] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useState)();
+  const tabTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'];
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useEffect)(() => {
+    const data = tabs_data.find(td => td.tabId === active_tab);
+    setActiveTd(data);
+  }, [active_tab]);
+
+  // function for create a new tab
   const addNewTab = tabId => {
     const newTab = {
       id: `${tabId}`,
@@ -128,10 +136,20 @@ function Edit({
     const newData = {
       tabId: `${tabId}`,
       title: `demo title ${tabId}`,
-      url: ''
+      desc: ''
     };
     setAttributes({
       tabs_data: [...tabs_data, newData]
+    });
+
+    // create color template
+    const newColor = {
+      textColor: '#000000',
+      bgColor: '#F9F9F9',
+      tabId: `${tabId}`
+    };
+    setAttributes({
+      tabsColor: [...tabsColor, newColor]
     });
   };
   const onChangeTitle = (newText, id) => {
@@ -144,11 +162,6 @@ function Edit({
     const data = tabs_data.find(td => td.tabId === tabId);
     setActiveTd(data);
   };
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useEffect)(() => {
-    setAttributes({
-      active_tab: "1"
-    });
-  }, []);
   const deleteTab = id => {
     const updatedTabs = tabs.filter(tab => tab.id !== id);
     const updatedTabsData = tabs_data.filter(data => data.tabId !== id);
@@ -157,6 +170,31 @@ function Edit({
       tabs_data: updatedTabsData
     });
   };
+
+  // function for change tab content color and background color
+  const onChangeTabColor = (color, activeTab, action) => {
+    if (activeTab) {
+      const updatedTabsColor = tabsColor?.map(tc => {
+        if (tc.tabId == activeTab) {
+          if (action === 'textColor') {
+            return {
+              ...tc,
+              textColor: color
+            };
+          } else {
+            return {
+              ...tc,
+              bgColor: color
+            };
+          }
+        }
+        return tc;
+      });
+      setAttributes({
+        tabsColor: updatedTabsColor
+      });
+    }
+  };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -164,29 +202,62 @@ function Edit({
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "tab-list"
   }, tabs?.map((tab, index) => {
-    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
       onClick: () => tabButtonClicked(tab.id, tabs_data),
       className: "tab-button",
       tagName: "p",
       key: index,
       onChange: e => onChangeTitle(e, tab.id),
       value: tab.title
-    });
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "add-more-btn"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-    onClick: () => addNewTab(tabs?.length + 1),
-    className: "tab-button"
-  }, "+")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
+    }), index === tabs?.length - 1 && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "add-more-btn"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+      onClick: () => addNewTab(tabs?.length + 1),
+      className: "tab-button"
+    }, "+")));
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
     group: "inline"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToolbarButton, {
     onClick: () => deleteTab(active_tab)
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove Tab', 'demo-tabs')))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, tabs?.map(tab => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove Tab', 'demo-tabs'))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelBody, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Tab Settings Panel', 'demo-tabs')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.__experimentalDivider, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.MenuGroup, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Tab Heading Tag Name', 'demo-tabs')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ButtonGroup, {
+    style: {
+      display: 'flex',
+      justifyContent: 'center'
+    }
+  }, tabTags?.map((tag, i) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    key: i
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.Button, {
+    onClick: () => setAttributes({
+      tabHeadingTagName: tag
+    })
+  }, tag))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.__experimentalDivider, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.MenuGroup, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Color Panel', 'demo-tabs')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.Tooltip, {
+    text: "Tab Color information"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "Choose Text Color"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.ColorPalette, {
+    value: tabsColor?.find(t => t.tabId == active_tab).textColor,
+    onChange: c => onChangeTabColor(c, active_tab, 'textColor')
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.Tooltip, {
+    text: "Tab Background Color information"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "Choose Background Color"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.ColorPalette, {
+    value: tabsColor?.find(t => t.tabId == active_tab).bgColor,
+    onChange: c => onChangeTabColor(c, active_tab, 'bgColor')
+  })))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      backgroundColor: tabsColor?.find(t => t.tabId == active_tab).bgColor
+    },
+    className: "tab-content"
+  }, tabs?.map(tab => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     key: tab.id,
     style: {
       display: tab.id === active_tab ? 'block' : 'none'
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_tab__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    attributes: attributes,
     data: activeTd,
     setAttributes: setAttributes,
     tabs_data: tabs_data,
@@ -216,7 +287,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)('create-block/demo-tabs', {
-  icon: 'admin-home',
+  icon: 'table-row-after',
   edit: _edit__WEBPACK_IMPORTED_MODULE_3__["default"],
   save: _save__WEBPACK_IMPORTED_MODULE_4__["default"]
 });
@@ -278,7 +349,7 @@ function Edit({
     setIsModalOpen,
     isModalOpen
   }) => {
-    // dynamic css 
+    // dynamic css
     let buttonStyles = buttonLayout === 'custom' ? {
       backgroundColor: buttonBgColor,
       color: buttonColor,
@@ -296,7 +367,7 @@ function Edit({
         },
         className: classNames,
         onClick: () => setIsModalOpen(!isModalOpen)
-      }, " ", !isModalOpen ? 'Open Modal' : 'Close Modal');
+      }, ' ', !isModalOpen ? 'Open Modal' : 'Close Modal');
     } else if (buttonType === 'textBox') {
       return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
         style: {
@@ -516,7 +587,7 @@ __webpack_require__.r(__webpack_exports__);
   description: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Demo Modal description', 'demo-tabs'),
   icon: 'admin-media',
   keywords: ['demo', 'modal'],
-  icon: 'admin-generic',
+  icon: 'external',
   attributes: {
     name: {
       type: 'string'
@@ -711,7 +782,8 @@ function save({
   const {
     tabs,
     tabs_data,
-    active_tab
+    tabsColor,
+    tabHeadingTagName
   } = attributes;
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save()
@@ -722,14 +794,25 @@ function save({
     "data-info": tab.id,
     className: "tab-button"
   }, tab.title))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "tab_data"
+    className: "tab-content-frontend"
   }, tabs_data?.map(td => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      color: tabsColor?.find(t => t.tabId == td.tabId).textColor,
+      backgroundColor: tabsColor?.find(t => t.tabId == td.tabId).bgColor
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     key: td.id,
-    className: `div-data-${td.tabId} btn-all inactive`
+    className: `div-data-${td.tabId} btn-all inactive tab-content`
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText.Content, {
+    style: {
+      color: tabsColor?.find(t => t.tabId == td.tabId).textColor
+    },
     value: td.title,
-    tagName: "h4"
-  })))));
+    tagName: tabHeadingTagName
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText.Content, {
+    value: td.desc,
+    tagName: "p"
+  }))))));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (save);
 
@@ -755,9 +838,15 @@ function Tab({
   data,
   setAttributes,
   tabs_data,
-  active_tab
+  active_tab,
+  attributes
 }) {
   const title = data?.title;
+  const desc = data?.desc;
+  const {
+    tabHeadingTagName,
+    tabsColor
+  } = attributes;
   const onChangeTitle = (newTitle, tabId) => {
     if (tabId) {
       const updatedTabs = tabs_data.map(tab => {
@@ -774,19 +863,41 @@ function Tab({
       });
     }
   };
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
-    tagName: "p",
-    value: title ? title : "Enter a Title",
-    placeholder: "Enter Name",
+  const onChangeDesc = (newDesc, tabId) => {
+    if (tabId) {
+      const updatedTabs = tabs_data.map(tab => {
+        if (tab.tabId === tabId) {
+          return {
+            ...tab,
+            desc: newDesc
+          };
+        }
+        return tab;
+      });
+      setAttributes({
+        tabs_data: updatedTabs
+      });
+    }
+  };
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      color: tabsColor?.find(t => t.tabId == active_tab).textColor,
+      backgroundColor: tabsColor?.find(t => t.tabId == active_tab).bgColor
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
+    style: {
+      color: tabsColor?.find(t => t.tabId == active_tab).textColor
+    },
+    tagName: tabHeadingTagName,
+    value: title ? title : 'Enter a Title',
     onChange: e => {
       onChangeTitle(e, data.tabId, tabs_data);
     }
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
     tagName: "p",
-    placeholder: "Enter age",
-    onChange: e => {
-      // setTabValues(e, 'ageChange', data.tabId)
-    }
+    placeholder: "Enter description",
+    onChange: e => onChangeDesc(e, data.tabId, tabs_data),
+    value: desc ? desc : 'enter description'
   }));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Tab);

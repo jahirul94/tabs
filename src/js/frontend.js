@@ -1,10 +1,14 @@
-; (function ($) {
-    $(".tab-button").on("click", function () {
-        var tabId = $(this).data("info");
-        $('.btn-all').removeClass('active');
-        $('.btn-all').addClass('inactive');
+( function ( $ ) {
+	$( `.div-data-1` ).removeClass( 'inactive' );
+	$( `.div-data-1` ).addClass( 'active' );
+	$( '.tab-button' ).on( 'click', function () {
+		$( `.div-data-1` ).removeClass( 'active' );
 
-        $(`.div-data-${tabId}`).addClass('active');
-        $(`.div-data-${tabId}`).removeClass('inactive');
-    });
-})(jQuery);
+		var tabId = $( this ).data( 'info' );
+		$( '.btn-all' ).removeClass( 'active' );
+		$( '.btn-all' ).addClass( 'inactive' );
+
+		$( `.div-data-${ tabId }` ).addClass( 'active' );
+		$( `.div-data-${ tabId }` ).removeClass( 'inactive' );
+	} );
+} )( jQuery );
