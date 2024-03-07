@@ -729,7 +729,8 @@ function save({
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     style: {
       ...buttonStyles,
-      borderRadius: buttonBorderRadius + 'px'
+      borderRadius: buttonBorderRadius + 'px',
+      marginRight: '-40px'
     },
     className: classNames,
     id: "modal-close"
