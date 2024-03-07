@@ -4,10 +4,10 @@ import { useState } from '@wordpress/element';
 import Modal from '../components/modal/modal';
 import './style/editor.css';
 import './style/modal.css';
-import { Button, ButtonGroup, ColorPalette, Dashicon, PanelBody, SelectControl, Tooltip, __experimentalDivider as Divider, RangeControl } from '@wordpress/components';
+import { Button, ButtonGroup, ColorPalette, Dashicon, PanelBody, SelectControl, Tooltip, __experimentalDivider as Divider, RangeControl, MenuGroup } from '@wordpress/components';
 
 function Edit({ attributes, setAttributes }) {
-	const { openButton, closeButton, openIcon, closeIcon, buttonType, buttonLayout, buttonBgColor, buttonColor, buttonFontSize, modalWidth, modalBorderRadius } = attributes;
+	const { openButton, closeButton, openIcon, closeIcon, buttonType, buttonLayout, buttonBgColor, buttonColor, buttonFontSize, modalWidth, modalBorderRadius, buttonBorderRadius } = attributes;
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -15,23 +15,23 @@ function Edit({ attributes, setAttributes }) {
 
 	const ModalButton = ({ setIsModalOpen, isModalOpen }) => {
 		// dynamic css 
-		let styles = buttonLayout === 'custom' ? { backgroundColor: buttonBgColor, color: buttonColor, fontSize: buttonFontSize + 'px' } : {};
+		let buttonStyles = buttonLayout === 'custom' ? { backgroundColor: buttonBgColor, color: buttonColor, fontSize: buttonFontSize + 'px', borderRadius: buttonBorderRadius + 'px' } : {};
 		let classNames = `${buttonLayout === 'primary' && 'modal-primary-button'}
 		${buttonLayout === 'secondary' && 'modal-secondary-button'} 
 		${buttonLayout === 'custom' && 'custom-button'}`
 
 		if (buttonType === 'default') {
 			return (<button
-				style={styles}
+				style={{ ...buttonStyles, borderRadius: buttonBorderRadius + 'px' }}
 				className={classNames}
 				onClick={() => setIsModalOpen(!isModalOpen)
 				}> {!isModalOpen ? 'Open Modal' : 'Close Modal'}</button >)
 		}
 		else if (buttonType === 'textBox') {
-			return (<button style={styles} className={classNames} onClick={() => setIsModalOpen(!isModalOpen)}>{!isModalOpen ? openButton : closeButton}</button>)
+			return (<button style={{ ...buttonStyles, borderRadius: buttonBorderRadius + 'px' }} className={classNames} onClick={() => setIsModalOpen(!isModalOpen)}>{!isModalOpen ? openButton : closeButton}</button>)
 		}
 		else if (buttonType === 'icon') {
-			return (<Dashicon style={styles} className={classNames} onClick={() => setIsModalOpen(!isModalOpen)} icon={!isModalOpen ? openIcon
+			return (<Dashicon style={{ ...buttonStyles, borderRadius: buttonBorderRadius + 'px' }} className={classNames} onClick={() => setIsModalOpen(!isModalOpen)} icon={!isModalOpen ? openIcon
 				: closeIcon} />)
 		}
 
@@ -43,12 +43,13 @@ function Edit({ attributes, setAttributes }) {
 			<InspectorControls>
 				<PanelBody title={__('Modal Settings Options', 'demo-tabs')}>
 					<SelectControl
-						label={__('Button Settings', 'demo-tabs')}
+						label={__('Select Button Content Type', 'demo-tabs')}
 						options={[
 							{ label: 'Default', value: 'default' },
 							{ label: 'Text Box', value: 'textBox' },
 							{ label: 'Icon', value: 'icon' },
 						]}
+						value={buttonType}
 						onChange={(text) => setAttributes({ buttonType: text })}
 					/>
 					<Divider />
@@ -62,7 +63,6 @@ function Edit({ attributes, setAttributes }) {
 							placeholder='Modal Close Button' />
 						<Divider />
 					</>}
-
 					{/* section for get button icon from admin  */}
 					{buttonType === 'icon' && <>
 						<Tooltip text="button icon information">
@@ -74,7 +74,6 @@ function Edit({ attributes, setAttributes }) {
 							placeholder='Enter close Icon Name' />
 						<Divider />
 					</>}
-
 					{/* button group  */}
 					<Tooltip text="button-groups information">
 						<h3>Choose a Button Layout </h3>
@@ -87,6 +86,13 @@ function Edit({ attributes, setAttributes }) {
 						</ButtonGroup>
 					</Tooltip>
 					<Divider />
+					{/* section for control button border radius  */}
+					<Tooltip text="button border radius information">
+						<h3>Button Border Radius Settings</h3>
+						<RangeControl min={0} max={50} onChange={(c) => setAttributes({ buttonBorderRadius: c })} value={buttonBorderRadius} /><Divider />
+					</Tooltip>
+
+					{/* custom css for custom button  */}
 					{buttonLayout === 'custom' && <Tooltip text="Button Color information">
 						<h3>Choose Text Color</h3>
 						<ColorPalette value={buttonColor} onChange={(e) => setAttributes({ buttonColor: e })} />
@@ -99,8 +105,7 @@ function Edit({ attributes, setAttributes }) {
 					</Tooltip>}
 
 					{/* modal contend settings  */}
-					<Tooltip text="Modal Body information">
-						<h3>Modal Content Settings</h3>
+					<MenuGroup label="Modal Content Settings">
 						<div style={{ display: 'flex', justifyContent: 'space-between' }}>
 							<p>Modal width</p>
 							<p>px</p>
@@ -135,7 +140,7 @@ function Edit({ attributes, setAttributes }) {
 						<ButtonGroup style={{ display: 'flex', justifyContent: 'center' }}>
 							{modalTags?.map((tag, i) => <div key={i}><Button onClick={() => setAttributes({ modalHeadingTagName: tag })}>{tag}</Button></div>)}
 						</ButtonGroup>
-					</Tooltip>
+					</MenuGroup>
 				</PanelBody>
 			</InspectorControls>
 			<Modal isOpen={isModalOpen} attributes={attributes} setAttributes={setAttributes} >

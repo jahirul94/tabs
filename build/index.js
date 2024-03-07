@@ -269,7 +269,8 @@ function Edit({
     buttonColor,
     buttonFontSize,
     modalWidth,
-    modalBorderRadius
+    modalBorderRadius,
+    buttonBorderRadius
   } = attributes;
   const [isModalOpen, setIsModalOpen] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.useState)(false);
   const modalTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'];
@@ -278,29 +279,39 @@ function Edit({
     isModalOpen
   }) => {
     // dynamic css 
-    let styles = buttonLayout === 'custom' ? {
+    let buttonStyles = buttonLayout === 'custom' ? {
       backgroundColor: buttonBgColor,
       color: buttonColor,
-      fontSize: buttonFontSize + 'px'
+      fontSize: buttonFontSize + 'px',
+      borderRadius: buttonBorderRadius + 'px'
     } : {};
     let classNames = `${buttonLayout === 'primary' && 'modal-primary-button'}
 		${buttonLayout === 'secondary' && 'modal-secondary-button'} 
 		${buttonLayout === 'custom' && 'custom-button'}`;
     if (buttonType === 'default') {
       return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-        style: styles,
+        style: {
+          ...buttonStyles,
+          borderRadius: buttonBorderRadius + 'px'
+        },
         className: classNames,
         onClick: () => setIsModalOpen(!isModalOpen)
       }, " ", !isModalOpen ? 'Open Modal' : 'Close Modal');
     } else if (buttonType === 'textBox') {
       return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-        style: styles,
+        style: {
+          ...buttonStyles,
+          borderRadius: buttonBorderRadius + 'px'
+        },
         className: classNames,
         onClick: () => setIsModalOpen(!isModalOpen)
       }, !isModalOpen ? openButton : closeButton);
     } else if (buttonType === 'icon') {
       return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Dashicon, {
-        style: styles,
+        style: {
+          ...buttonStyles,
+          borderRadius: buttonBorderRadius + 'px'
+        },
         className: classNames,
         onClick: () => setIsModalOpen(!isModalOpen),
         icon: !isModalOpen ? openIcon : closeIcon
@@ -316,7 +327,7 @@ function Edit({
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Modal Settings Options', 'demo-tabs')
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.SelectControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Button Settings', 'demo-tabs'),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select Button Content Type', 'demo-tabs'),
     options: [{
       label: 'Default',
       value: 'default'
@@ -327,6 +338,7 @@ function Edit({
       label: 'Icon',
       value: 'icon'
     }],
+    value: buttonType,
     onChange: text => setAttributes({
       buttonType: text
     })
@@ -384,7 +396,16 @@ function Edit({
     })
   }, "Customize ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, " "), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Dashicon, {
     icon: "admin-customizer"
-  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.__experimentalDivider, null), buttonLayout === 'custom' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Tooltip, {
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.__experimentalDivider, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Tooltip, {
+    text: "button border radius information"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "Button Border Radius Settings"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.RangeControl, {
+    min: 0,
+    max: 50,
+    onChange: c => setAttributes({
+      buttonBorderRadius: c
+    }),
+    value: buttonBorderRadius
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.__experimentalDivider, null)), buttonLayout === 'custom' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Tooltip, {
     text: "Button Color information"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "Choose Text Color"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.ColorPalette, {
     value: buttonColor,
@@ -403,9 +424,9 @@ function Edit({
       buttonFontSize: c
     }),
     value: buttonFontSize
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.__experimentalDivider, null)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Tooltip, {
-    text: "Modal Body information"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "Modal Content Settings"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.__experimentalDivider, null)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.MenuGroup, {
+    label: "Modal Content Settings"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between'
@@ -544,7 +565,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     modalBorderRadius: {
       type: 'number',
-      default: '0'
+      default: 0
     },
     modalTextAlign: {
       type: 'string',
@@ -553,6 +574,10 @@ __webpack_require__.r(__webpack_exports__);
     modalHeadingTagName: {
       type: 'string',
       default: 'h5'
+    },
+    buttonBorderRadius: {
+      type: 'number',
+      default: 0
     }
   },
   edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -599,9 +624,10 @@ function save({
     modalHeadingTagName,
     modalWidth,
     modalBorderRadius,
-    modalTextAlign
+    modalTextAlign,
+    buttonBorderRadius
   } = attributes;
-  let styles = buttonLayout === 'custom' ? {
+  let buttonStyles = buttonLayout === 'custom' ? {
     backgroundColor: buttonBgColor,
     color: buttonColor,
     fontSize: buttonFontSize + 'px'
@@ -616,7 +642,10 @@ function save({
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "modal-header"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-    style: styles,
+    style: {
+      ...buttonStyles,
+      borderRadius: buttonBorderRadius + 'px'
+    },
     className: classNames,
     id: "modal-button"
   }, buttonType === 'textBox' && openButton || buttonType === 'icon' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Dashicon, {
@@ -627,7 +656,10 @@ function save({
     },
     className: "close-btn-section"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-    style: styles,
+    style: {
+      ...buttonStyles,
+      borderRadius: buttonBorderRadius + 'px'
+    },
     className: classNames,
     id: "modal-close"
   }, buttonType === 'textBox' && closeButton || buttonType === 'icon' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Dashicon, {

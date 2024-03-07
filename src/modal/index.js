@@ -57,7 +57,7 @@ registerBlockType('create-block/modal', {
         },
         modalBorderRadius: {
             type: 'number',
-            default: '0'
+            default: 0
         },
         modalTextAlign: {
             type: 'string',
@@ -66,6 +66,10 @@ registerBlockType('create-block/modal', {
         modalHeadingTagName: {
             type: 'string',
             default: 'h5'
+        },
+        buttonBorderRadius: {
+            type: 'number',
+            default: 0
         },
 
     },
