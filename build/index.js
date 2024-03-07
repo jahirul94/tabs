@@ -204,7 +204,7 @@ function Edit({
   }, tabs?.map((tab, index) => {
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
       onClick: () => tabButtonClicked(tab.id, tabs_data),
-      className: "tab-button",
+      className: tab.id == active_tab ? 'tab-button-active' : 'tab-button',
       tagName: "p",
       key: index,
       onChange: e => onChangeTitle(e, tab.id),
@@ -590,7 +590,6 @@ __webpack_require__.r(__webpack_exports__);
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)('create-block/modal', {
   title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Demo Modal', 'demo-tabs'),
   description: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Demo Modal description', 'demo-tabs'),
-  icon: 'admin-media',
   keywords: ['demo', 'modal'],
   icon: 'external',
   attributes: {

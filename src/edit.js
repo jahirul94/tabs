@@ -101,7 +101,7 @@ function Edit({ attributes, setAttributes }) {
 									onClick={() =>
 										tabButtonClicked(tab.id, tabs_data)
 									}
-									className="tab-button"
+									className={tab.id == active_tab ? 'tab-button-active' : 'tab-button'}
 									tagName="p"
 									key={index}
 									onChange={(e) =>
