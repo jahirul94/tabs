@@ -251,6 +251,9 @@ const GeneralSettings = ({
   attributes,
   setAttributes
 }) => {
+  const {
+    tabWidth
+  } = attributes;
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.MenuGroup, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Tab Heading Tag Name', 'demo-tabs')
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ButtonGroup, {
@@ -258,13 +261,59 @@ const GeneralSettings = ({
       display: 'flex',
       justifyContent: 'center'
     }
-  }, tabTags?.map((tag, i) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    key: i
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+  }, tabTags?.map((tag, i) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+    key: i,
+    className: "button-tag",
     onClick: () => setAttributes({
       tabHeadingTagName: tag
     })
-  }, tag))))));
+  }, tag)))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.__experimentalDivider, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.MenuGroup, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Tab Direction', 'demo-tabs')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ButtonGroup, {
+    style: {
+      display: 'flex',
+      justifyContent: 'center'
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+    className: "button-tb-alignment",
+    onClick: () => setAttributes({
+      buttonAlignment: 'row'
+    })
+  }, "Row ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Dashicon, {
+    icon: "arrow-right"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+    className: "button-tb-alignment",
+    onClick: () => setAttributes({
+      buttonAlignment: 'column'
+    })
+  }, "Column ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Dashicon, {
+    icon: "arrow-down"
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.__experimentalDivider, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.MenuGroup, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Text Alignment', 'demo-tabs')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ButtonGroup, {
+    style: {
+      display: 'flex',
+      justifyContent: 'center'
+    }
+  }, ['left', 'center', 'right'].map((align, i) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+    key: i,
+    className: "button-text-alignment",
+    title: align,
+    onClick: () => setAttributes({
+      tabTextAlignment: align
+    })
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Dashicon, {
+    icon: `align-${align}`
+  }))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.__experimentalDivider, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.MenuGroup, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Tab Width Controller', 'demo-tabs')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.RangeControl, {
+    value: tabWidth,
+    min: 250,
+    max: 800,
+    onChange: w => setAttributes({
+      tabWidth: w
+    })
+  })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GeneralSettings);
 
@@ -380,10 +429,13 @@ function Edit({
     active_tab,
     tabs_data,
     tabsColor,
-    settingsPanelState
+    settingsPanelState,
+    buttonAlignment,
+    tabTextAlignment,
+    tabWidth
   } = attributes;
   const [activeTd, setActiveTd] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useState)();
-  const tabTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'];
+  const tabTags = ['h1', 'h2', 'h3', 'h4', 'p'];
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useEffect)(() => {
     const data = tabs_data.find(td => td.tabId === active_tab);
     setActiveTd(data);
@@ -438,30 +490,7 @@ function Edit({
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "tab-header"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "tab-list"
-  }, tabs?.map((tab, index) => {
-    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
-      onClick: () => tabButtonClicked(tab.id, tabs_data),
-      className: tab.id == active_tab ? 'tab-button-active' : 'tab-button',
-      tagName: "p",
-      key: index,
-      onChange: e => onChangeTitle(e, tab.id),
-      value: tab.title
-    }), index === tabs?.length - 1 && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      className: "add-more-btn"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText.Content, {
-      style: {
-        textAlign: 'center'
-      },
-      tagName: "p",
-      onClick: () => addNewTab(tabs?.length + 1),
-      className: "tab-button",
-      value: "+"
-    })));
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
     group: "inline"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToolbarButton, {
     onClick: () => deleteTab(active_tab)
@@ -492,15 +521,61 @@ function Edit({
   }), settingsPanelState === 'advance' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_tabs_advanceSettings__WEBPACK_IMPORTED_MODULE_9__["default"], {
     attributes: attributes,
     setAttributes: setAttributes
-  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
-      backgroundColor: tabsColor?.find(t => t.tabId == active_tab).bgColor
+      display: 'flex',
+      flexDirection: buttonAlignment,
+      width: tabWidth + 'px'
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: buttonAlignment === 'row' ? {
+      width: '20%'
+    } : {
+      width: '100%'
+    },
+    className: "tab-header"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: buttonAlignment === 'column' ? 'tab-list' : 'tab-list-col'
+  }, tabs?.map((tab, index) => {
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
+      onClick: () => tabButtonClicked(tab.id, tabs_data),
+      style: buttonAlignment === 'row' ? {
+        marginBottom: '2px'
+      } : {
+        marginBottom: '0px'
+      },
+      className: tab.id == active_tab ? 'tab-button-active' : 'tab-button',
+      tagName: "p",
+      key: index,
+      onChange: e => onChangeTitle(e, tab.id),
+      value: tab.title
+    }), index === tabs?.length - 1 && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "add-more-btn"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText.Content, {
+      style: {
+        textAlign: 'center'
+      },
+      tagName: "p",
+      onClick: () => addNewTab(tabs?.length + 1),
+      className: "tab-button",
+      value: "+"
+    })));
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      backgroundColor: tabsColor?.find(t => t.tabId === active_tab)?.bgColor,
+      ...(buttonAlignment === 'row' ? {
+        width: '80%'
+      } : {
+        width: '100%'
+      })
     },
     className: "tab-content"
   }, tabs?.map(tab => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     key: tab.id,
     style: {
-      display: tab.id === active_tab ? 'block' : 'none'
+      display: tab.id === active_tab ? 'block' : 'none',
+      padding: '10px',
+      textAlign: tabTextAlignment
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_tab__WEBPACK_IMPORTED_MODULE_4__["default"], {
     attributes: attributes,
@@ -508,7 +583,7 @@ function Edit({
     setAttributes: setAttributes,
     tabs_data: tabs_data,
     active_tab: active_tab
-  })))));
+  }))))));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Edit);
 
@@ -1129,22 +1204,22 @@ function Tab({
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
-      color: tabsColor?.find(t => t.tabId == active_tab).textColor,
-      backgroundColor: tabsColor?.find(t => t.tabId == active_tab).bgColor
+      color: tabsColor?.find(t => t?.tabId == active_tab).textColor,
+      backgroundColor: tabsColor?.find(t => t?.tabId == active_tab).bgColor
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
     style: {
-      color: tabsColor?.find(t => t.tabId == active_tab).textColor
+      color: tabsColor?.find(t => t.tabId == active_tab)?.textColor
     },
     tagName: tabHeadingTagName,
     value: title ? title : 'Enter a Title',
     onChange: e => {
-      onChangeTitle(e, data.tabId, tabs_data);
+      onChangeTitle(e, data?.tabId, tabs_data);
     }
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
     tagName: "p",
     placeholder: "Enter description",
-    onChange: e => onChangeDesc(e, data.tabId, tabs_data),
+    onChange: e => onChangeDesc(e, data?.tabId, tabs_data),
     value: desc ? desc : 'enter description'
   }));
 }

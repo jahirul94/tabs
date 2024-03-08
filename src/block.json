@@ -89,6 +89,18 @@
 		"settingsPanelState": {
 			"type": "string",
 			"default": "general"
+		},
+		"buttonAlignment": {
+			"type": "string",
+			"default": "row"
+		},
+		"tabTextAlignment": {
+			"type": "string",
+			"default": "left"
+		},
+		"tabWidth": {
+			"type": "number",
+			"default": "620"
 		}
 	},
 	"textdomain": "demo-tabs",
