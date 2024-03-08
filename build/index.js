@@ -331,8 +331,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__);
+
+
 
 
 const StyleSettings = ({
@@ -341,7 +347,13 @@ const StyleSettings = ({
 }) => {
   const {
     active_tab,
-    tabsColor
+    tabsColor,
+    tabBtnBorderColor,
+    tabBtnBgColor,
+    tabBtnTextColor,
+    tabBtnType,
+    activeBtnColor,
+    hoverBtnColor
   } = attributes;
 
   // function for change tab content color and background color
@@ -368,17 +380,97 @@ const StyleSettings = ({
       });
     }
   };
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.MenuGroup, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Tooltip, {
-    text: "Tab Color information"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "Choose Text Color"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ColorPalette, {
-    value: tabsColor?.find(t => t.tabId == active_tab).textColor,
-    onChange: c => onChangeTabColor(c, active_tab, 'textColor')
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Tooltip, {
-    text: "Tab Background Color information"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "Choose Background Color"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ColorPalette, {
-    value: tabsColor?.find(t => t.tabId == active_tab).bgColor,
-    onChange: c => onChangeTabColor(c, active_tab, 'bgColor')
-  }))));
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.MenuGroup, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Tab Button Settings', 'demo-tabs')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ButtonGroup, {
+    style: {
+      display: 'flex'
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+    onClick: () => setAttributes({
+      tabBtnType: 'primary'
+    }),
+    className: "button-tb-alignment",
+    variant: "primary"
+  }, "Primary"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+    onClick: () => setAttributes({
+      tabBtnType: 'secondary'
+    }),
+    className: "button-tb-alignment",
+    variant: "secondary"
+  }, "Secondary"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+    onClick: () => setAttributes({
+      tabBtnType: 'custom'
+    }),
+    className: "button-tb-alignment",
+    variant: "secondary"
+  }, "Custom ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Dashicon, {
+    icon: "admin-customizer"
+  }))), tabBtnType === 'custom' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.PanelColorSettings, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Tab Button Color Settings', 'demo-tabs'),
+    icon: "admin-appearance",
+    initialOpen: true,
+    disableCustomColors: false,
+    colorSettings: [{
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Text Color', 'demo-tabs'),
+      value: tabBtnTextColor,
+      onChange: c => {
+        setAttributes({
+          tabBtnTextColor: c
+        });
+      }
+    }, tabBtnType !== 'secondary' && {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Background Color', 'demo-tabs'),
+      value: tabBtnBgColor,
+      onChange: bg => {
+        setAttributes({
+          tabBtnBgColor: bg
+        });
+      }
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Border Color', 'demo-tabs'),
+      value: tabBtnBorderColor,
+      onChange: br => {
+        setAttributes({
+          tabBtnBorderColor: br
+        });
+      }
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Active Button Color', 'demo-tabs'),
+      value: activeBtnColor,
+      onChange: ac => {
+        setAttributes({
+          activeBtnColor: ac
+        });
+      }
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Hover Button Color', 'demo-tabs'),
+      value: hoverBtnColor,
+      onChange: hc => {
+        setAttributes({
+          hoverBtnColor: hc
+        });
+      }
+    }]
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.__experimentalDivider, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.PanelColorSettings, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Tab Content Color Settings', 'demo-tabs'),
+    icon: "admin-appearance",
+    initialOpen: true,
+    disableCustomColors: false,
+    colorSettings: [{
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Text Color', 'demo-tabs'),
+      value: tabsColor?.find(t => t.tabId == active_tab)?.textColor,
+      onChange: newColor => {
+        onChangeTabColor(newColor, active_tab, 'textColor');
+      }
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Background Color', 'demo-tabs'),
+      value: tabsColor?.find(t => t.tabId == active_tab)?.bgColor,
+      onChange: newColor => {
+        onChangeTabColor(newColor, active_tab, 'bgColor');
+      }
+    }]
+  }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (StyleSettings);
 
@@ -432,7 +524,13 @@ function Edit({
     settingsPanelState,
     buttonAlignment,
     tabTextAlignment,
-    tabWidth
+    tabWidth,
+    tabBtnType,
+    tabBtnTextColor,
+    tabBtnBgColor,
+    tabBtnBorderColor,
+    activeBtnColor,
+    hoverBtnColor
   } = attributes;
   const [activeTd, setActiveTd] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useState)();
   const tabTags = ['h1', 'h2', 'h3', 'h4', 'p'];
@@ -488,6 +586,39 @@ function Edit({
       tabs_data: updatedTabsData
     });
   };
+  const activeClass = (tabBtnType, tabId, activeTab) => {
+    if (tabBtnType === 'primary') {
+      if (tabId == activeTab) {
+        return 'primary-button-active';
+      } else {
+        return 'tab-button-primary';
+      }
+    } else if (tabBtnType === 'secondary') {
+      if (tabId == activeTab) {
+        return 'secondary-button-active';
+      } else {
+        return 'tab-button-secondary';
+      }
+    } else {
+      return 'tab-button';
+    }
+  };
+  const getCustomStyles = (tabBtnType, tabId, active_tab) => {
+    if (tabBtnType === 'custom') {
+      if (tabId == active_tab) {
+        return {
+          color: tabBtnTextColor,
+          border: `2px solid ${tabBtnBorderColor}`,
+          backgroundColor: activeBtnColor
+        };
+      }
+      return {
+        color: tabBtnTextColor,
+        border: `2px solid ${tabBtnBorderColor}`,
+        backgroundColor: tabBtnBgColor
+      };
+    }
+  };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
@@ -539,12 +670,8 @@ function Edit({
   }, tabs?.map((tab, index) => {
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
       onClick: () => tabButtonClicked(tab.id, tabs_data),
-      style: buttonAlignment === 'row' ? {
-        marginBottom: '2px'
-      } : {
-        marginBottom: '0px'
-      },
-      className: tab.id == active_tab ? 'tab-button-active' : 'tab-button',
+      style: getCustomStyles(tabBtnType, tab.id, active_tab),
+      className: activeClass(tabBtnType, tab.id, active_tab),
       tagName: "p",
       key: index,
       onChange: e => onChangeTitle(e, tab.id),
@@ -553,11 +680,12 @@ function Edit({
       className: "add-more-btn"
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText.Content, {
       style: {
-        textAlign: 'center'
+        ...getCustomStyles(tabBtnType, tab.id + 1, active_tab),
+        textAlign: "center"
       },
       tagName: "p",
       onClick: () => addNewTab(tabs?.length + 1),
-      className: "tab-button",
+      className: activeClass(tabBtnType, tab.id, active_tab),
       value: "+"
     })));
   }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {

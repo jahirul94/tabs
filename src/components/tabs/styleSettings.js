@@ -1,7 +1,13 @@
-import { ColorPalette, MenuGroup, Tooltip } from "@wordpress/components";
+import { __ } from '@wordpress/i18n';
+import {
+    Button, ButtonGroup, MenuGroup,
+    __experimentalDivider as Divider,
+    Dashicon,
+} from "@wordpress/components";
+import { PanelColorSettings } from '@wordpress/block-editor';
 
 const StyleSettings = ({ attributes, setAttributes }) => {
-    const { active_tab, tabsColor } = attributes;
+    const { active_tab, tabsColor, tabBtnBorderColor, tabBtnBgColor, tabBtnTextColor, tabBtnType, activeBtnColor, hoverBtnColor } = attributes;
 
     // function for change tab content color and background color
     const onChangeTabColor = (color, activeTab, action) => {
@@ -22,42 +28,96 @@ const StyleSettings = ({ attributes, setAttributes }) => {
 
     return (
         <div>
-            <MenuGroup>
-                <Tooltip text="Tab Color information">
-                    <h3>Choose Text Color</h3>
-                    <ColorPalette
-                        value={
-                            tabsColor?.find(
-                                (t) => t.tabId == active_tab
-                            ).textColor
-                        }
-                        onChange={(c) =>
+            {/* buttons styles  */}
+            <MenuGroup
+                label={__('Tab Button Settings', 'demo-tabs')}
+            >
+                <ButtonGroup style={{ display: 'flex' }}>
+                    <Button onClick={() => setAttributes({ tabBtnType: 'primary' })} className='button-tb-alignment' variant='primary'>Primary</Button>
+                    <Button onClick={() => setAttributes({ tabBtnType: 'secondary' })} className='button-tb-alignment' variant='secondary'>Secondary</Button>
+                    <Button onClick={() => setAttributes({ tabBtnType: 'custom' })} className='button-tb-alignment' variant='secondary'>Custom <Dashicon icon='admin-customizer' /></Button>
+                </ButtonGroup>
+
+                {tabBtnType === 'custom' && <PanelColorSettings
+                    title={__('Tab Button Color Settings', 'demo-tabs')}
+                    icon="admin-appearance"
+                    initialOpen
+                    disableCustomColors={false}
+                    colorSettings={[
+                        {
+                            label: __('Text Color', 'demo-tabs'),
+                            value: tabBtnTextColor,
+                            onChange: (c) => {
+                                setAttributes({ tabBtnTextColor: c });
+                            }
+                        },
+                        tabBtnType !== 'secondary' && {
+                            label: __('Background Color', 'demo-tabs'),
+                            value: tabBtnBgColor,
+                            onChange: (bg) => {
+                                setAttributes({ tabBtnBgColor: bg });
+                            },
+                        },
+                        {
+                            label: __('Border Color', 'demo-tabs'),
+                            value: tabBtnBorderColor,
+                            onChange: (br) => {
+                                setAttributes({ tabBtnBorderColor: br });
+                            },
+                        },
+                        {
+                            label: __('Active Button Color', 'demo-tabs'),
+                            value: activeBtnColor,
+                            onChange: (ac) => {
+                                setAttributes({ activeBtnColor: ac });
+                            },
+                        },
+                        {
+                            label: __('Hover Button Color', 'demo-tabs'),
+                            value: hoverBtnColor,
+                            onChange: (hc) => {
+                                setAttributes({ hoverBtnColor: hc });
+                            },
+                        },
+                    ]}
+                />}
+            </MenuGroup>
+            <Divider />
+
+            <PanelColorSettings
+                title={__('Tab Content Color Settings', 'demo-tabs')}
+                icon="admin-appearance"
+                initialOpen
+                disableCustomColors={false}
+                colorSettings={[
+                    {
+                        label: __('Text Color', 'demo-tabs'),
+                        value: tabsColor?.find(
+                            (t) => t.tabId == active_tab
+                        )?.textColor,
+                        onChange: (newColor) => {
                             onChangeTabColor(
-                                c,
+                                newColor,
                                 active_tab,
                                 'textColor'
                             )
-                        }
-                    />
-                </Tooltip>
-                <Tooltip text="Tab Background Color information">
-                    <h3>Choose Background Color</h3>
-                    <ColorPalette
-                        value={
-                            tabsColor?.find(
-                                (t) => t.tabId == active_tab
-                            ).bgColor
-                        }
-                        onChange={(c) =>
+                        },
+                    },
+                    {
+                        label: __('Background Color', 'demo-tabs'),
+                        value: tabsColor?.find(
+                            (t) => t.tabId == active_tab
+                        )?.bgColor,
+                        onChange: (newColor) => {
                             onChangeTabColor(
-                                c,
+                                newColor,
                                 active_tab,
                                 'bgColor'
-                            )
-                        }
-                    />
-                </Tooltip>
-            </MenuGroup>
+                            );
+                        },
+                    }
+                ]}
+            />
         </div>
     )
 }

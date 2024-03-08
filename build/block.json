@@ -101,6 +101,30 @@
     "tabWidth": {
       "type": "number",
       "default": "620"
+    },
+    "tabBtnType": {
+      "type": "string",
+      "default": "secondary"
+    },
+    "tabBtnTextColor": {
+      "type": "string",
+      "default": "#007bff"
+    },
+    "tabBtnBgColor": {
+      "type": "string",
+      "default": "#f9f9f9"
+    },
+    "tabBtnBorderColor": {
+      "type": "string",
+      "default": "#007bff"
+    },
+    "activeBtnColor": {
+      "type": "string",
+      "default": "#007bff"
+    },
+    "hoverBtnColor": {
+      "type": "string",
+      "default": "#007bff"
     }
   },
   "textdomain": "demo-tabs",

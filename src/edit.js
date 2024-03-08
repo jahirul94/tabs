@@ -4,7 +4,6 @@ import {
 	RichText,
 	BlockControls,
 	InspectorControls,
-	ColorPalette,
 } from '@wordpress/block-editor';
 import './editor.scss';
 import Tab from './tab';
@@ -22,7 +21,8 @@ import StyleSettings from './components/tabs/styleSettings';
 import AdvanceSettings from './components/tabs/advanceSettings';
 
 function Edit({ attributes, setAttributes }) {
-	const { tabs, active_tab, tabs_data, tabsColor, settingsPanelState, buttonAlignment, tabTextAlignment, tabWidth } = attributes;
+	const { tabs, active_tab, tabs_data, tabsColor, settingsPanelState, buttonAlignment, tabTextAlignment, tabWidth, tabBtnType, tabBtnTextColor, tabBtnBgColor, tabBtnBorderColor, activeBtnColor, hoverBtnColor } = attributes;
+
 	const [activeTd, setActiveTd] = useState();
 	const tabTags = ['h1', 'h2', 'h3', 'h4', 'p'];
 
@@ -74,6 +74,33 @@ function Edit({ attributes, setAttributes }) {
 		setAttributes({ tabs: updatedTabs, tabs_data: updatedTabsData });
 	};
 
+	const activeClass = (tabBtnType, tabId, activeTab) => {
+		if (tabBtnType === 'primary') {
+			if (tabId == activeTab) {
+				return 'primary-button-active';
+			} else {
+				return 'tab-button-primary';
+			}
+		} else if (tabBtnType === 'secondary') {
+			if (tabId == activeTab) {
+				return 'secondary-button-active';
+			} else {
+				return 'tab-button-secondary';
+			}
+		} else {
+			return 'tab-button'
+		}
+	};
+
+	const getCustomStyles = (tabBtnType, tabId, active_tab) => {
+		if (tabBtnType === 'custom') {
+			if (tabId == active_tab) {
+				return { color: tabBtnTextColor, border: `2px solid ${tabBtnBorderColor}`, backgroundColor: activeBtnColor }
+			}
+			return { color: tabBtnTextColor, border: `2px solid ${tabBtnBorderColor}`, backgroundColor: tabBtnBgColor }
+		}
+	};
+
 	return (
 		<div {...useBlockProps()}>
 			<BlockControls group="inline">
@@ -116,30 +143,30 @@ function Edit({ attributes, setAttributes }) {
 										onClick={() =>
 											tabButtonClicked(tab.id, tabs_data)
 										}
-										style={buttonAlignment === 'row' ? { marginBottom: '2px' } : { marginBottom: '0px' }}
+										style={getCustomStyles(tabBtnType, tab.id, active_tab)}
 
-										className={tab.id == active_tab ? 'tab-button-active' : 'tab-button'}
-
+										className={activeClass(tabBtnType, tab.id, active_tab)}
 										tagName="p"
 										key={index}
 										onChange={(e) =>
 											onChangeTitle(e, tab.id)
 										}
 										value={tab.title}
-									></RichText>
+									></RichText >
 									{index === tabs?.length - 1 && (
 										<div className="add-more-btn">
 											<RichText.Content
-												style={{ textAlign: 'center' }}
+												style={{ ...getCustomStyles(tabBtnType, tab.id + 1, active_tab), textAlign: "center" }}
 												tagName="p"
 												onClick={() =>
 													addNewTab(tabs?.length + 1)
 												}
-												className="tab-button"
+												className={activeClass(tabBtnType, tab.id, active_tab)}
 												value='+'
 											/>
 										</div>
-									)}
+									)
+									}
 								</>
 							);
 						})}
