@@ -133,6 +133,46 @@
 		"customClass": {
 			"type": "string",
 			"default": ""
+		},
+		"hasBorderRadius": {
+			"type": "boolean",
+			"default": false
+		},
+		"btnBorderRadius": {
+			"type": "number",
+			"default": 0
+		},
+		"fontFamily": {
+			"type": "string",
+			"default": ""
+		},
+		"fontCategory": {
+			"type": "string",
+			"default": ""
+		},
+		"fontVisualStyle": {
+			"type": "string",
+			"default": "default"
+		},
+		"fontWidth": {
+			"type": "number",
+			"default": "400"
+		},
+		"textDecoration": {
+			"type": "string",
+			"default": "none"
+		},
+		"fontSize": {
+			"type": "number",
+			"default": "17"
+		},
+		"letterSpacing": {
+			"type": "number",
+			"default": "0"
+		},
+		"lineHeight": {
+			"type": "number",
+			"default": "0"
 		}
 	},
 	"textdomain": "demo-tabs",

@@ -2,16 +2,18 @@ import { RichText, useBlockProps } from '@wordpress/block-editor';
 import './style.scss';
 
 function save({ attributes }) {
-	const { tabs, tabs_data, tabsColor, tabHeadingTagName, customClass, customStyle, active_tab, activeBtnColor, buttonAlignment, tabWidth, tabBtnType } = attributes;
+	const { tabs, tabs_data, tabsColor, tabHeadingTagName, customClass, customStyle, activeBtnColor, buttonAlignment, tabWidth, tabBtnType, btnBorderRadius, fontFamily, fontCategory } = attributes;
 
 	return (
-		<div style={{ display: 'flex', flexDirection: buttonAlignment, width: tabWidth + 'px' }} {...useBlockProps.save()}>
+		<div style={{ display: 'flex', flexDirection: buttonAlignment, width: tabWidth + 'px', fontFamily: `${fontFamily, fontCategory}` }} {...useBlockProps.save()}>
+			<input className={tabBtnType} id='hidden-field' type='hidden' value={activeBtnColor} />
+			<input id='hidden-field2' type='hidden' value={customStyle?.backgroundColor} />
 			<div style={buttonAlignment === 'row' ? { width: '20%' } : { width: '100%', marginBottom: '5px' }} className={buttonAlignment === 'column' ? 'tab-list' : 'tab-list-col'}>
 				{tabs?.map((tab) => (
 					<button
 						key={tab.id}
 						data-info={tab.id}
-						style={customStyle}
+						style={{ ...customStyle, borderRadius: btnBorderRadius, fontFamily: `${fontFamily, fontCategory}` }}
 						id={`tab-button-${tab.id}`}
 						className={`tab-button ${customClass}`}
 					>
@@ -29,7 +31,8 @@ function save({ attributes }) {
 							backgroundColor: tabsColor?.find(
 								(t) => t.tabId == td.tabId
 							)?.bgColor,
-							...(buttonAlignment === 'row' ? { width: '80%' } : { width: '100%' })
+							...(buttonAlignment === 'row' ? { width: '80%' } : { width: '100%' }),
+							fontFamily: `${fontFamily, fontCategory}`
 						}}
 					>
 						<div
@@ -42,6 +45,7 @@ function save({ attributes }) {
 									color: tabsColor?.find(
 										(t) => t.tabId == td.tabId
 									)?.textColor,
+									fontFamily: `${fontFamily, fontCategory}`
 								}}
 								value={td.title}
 								tagName={tabHeadingTagName}

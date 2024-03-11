@@ -21,7 +21,7 @@ import StyleSettings from './components/tabs/styleSettings';
 import AdvanceSettings from './components/tabs/advanceSettings';
 
 function Edit({ attributes, setAttributes }) {
-	const { tabs, active_tab, tabs_data, tabsColor, settingsPanelState, buttonAlignment, tabTextAlignment, tabWidth, tabBtnType, tabBtnTextColor, tabBtnBgColor, tabBtnBorderColor, activeBtnColor, hoverBtnColor } = attributes;
+	const { tabs, active_tab, tabs_data, tabsColor, settingsPanelState, buttonAlignment, tabTextAlignment, tabWidth, tabBtnType, tabBtnTextColor, tabBtnBgColor, tabBtnBorderColor, activeBtnColor, hoverBtnColor, btnBorderRadius, fontFamily, fontCategory } = attributes;
 
 	const [activeTd, setActiveTd] = useState();
 	const tabTags = ['h1', 'h2', 'h3', 'h4', 'p'];
@@ -124,17 +124,15 @@ function Edit({ attributes, setAttributes }) {
 						<ToggleGroupControlOption value="styles" label="Styles" />
 						<ToggleGroupControlOption value="advanced" label="Advanced" />
 					</ToggleGroupControl>
-
+					<Divider />
 					{/* general settings components  */}
-					<Divider />
 					{settingsPanelState === 'general' && <GeneralSettings tabTags={tabTags} attributes={attributes} setAttributes={setAttributes} />}
-					<Divider />
 
 					{/* styles settings components  */}
 					{settingsPanelState === 'styles' && <StyleSettings attributes={attributes} setAttributes={setAttributes} />}
 
 					{/* advance settings components  */}
-					{settingsPanelState === 'advance' && <AdvanceSettings attributes={attributes} setAttributes={setAttributes} />}
+					{settingsPanelState === 'advanced' && <AdvanceSettings attributes={attributes} setAttributes={setAttributes} />}
 				</PanelBody>
 			</InspectorControls>
 
@@ -149,7 +147,7 @@ function Edit({ attributes, setAttributes }) {
 										onClick={() =>
 											tabButtonClicked(tab.id, tabs_data)
 										}
-										style={getCustomStyles(tabBtnType, tab.id, active_tab)}
+										style={{ ...getCustomStyles(tabBtnType, tab.id, active_tab), borderRadius: btnBorderRadius, fontFamily: `${fontFamily, fontCategory}` }}
 
 										className={activeClass(tabBtnType, tab.id, active_tab)}
 										tagName="p"
@@ -162,7 +160,7 @@ function Edit({ attributes, setAttributes }) {
 									{index === tabs?.length - 1 && (
 										<div className="add-more-btn">
 											<RichText.Content
-												style={{ ...getCustomStyles(tabBtnType, tab.id + 1, active_tab), textAlign: "center" }}
+												style={{ ...getCustomStyles(tabBtnType, tab.id + 1, active_tab), textAlign: "center", borderRadius: btnBorderRadius, fontFamily: `${fontFamily, fontCategory}` }}
 												tagName="p"
 												onClick={() =>
 													addNewTab(tabs?.length + 1)
@@ -184,7 +182,7 @@ function Edit({ attributes, setAttributes }) {
 						backgroundColor: tabsColor?.find(
 							(t) => t.tabId === active_tab
 						)?.bgColor,
-						...(buttonAlignment === 'row' ? { width: '80%' } : { width: '100%' })
+						...(buttonAlignment === 'row' ? { width: '80%' } : { width: '100%', fontFamily: `${fontFamily}` })
 					}}
 					className="tab-content"
 				>
@@ -194,7 +192,8 @@ function Edit({ attributes, setAttributes }) {
 							style={{
 								display: tab.id === active_tab ? 'block' : 'none',
 								padding: '10px',
-								textAlign: tabTextAlignment
+								textAlign: tabTextAlignment,
+								fontFamily: `${fontFamily}`
 							}}
 						>
 							<Tab

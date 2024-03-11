@@ -216,12 +216,184 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _local__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../local */ "./src/local.js");
+
+
+
+
 
 const AdvanceSettings = ({
   attributes,
   setAttributes
 }) => {
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "advanceSettings");
+  const {
+    hasBorderRadius,
+    btnBorderRadius,
+    fontFamily,
+    fontVisualStyle,
+    fontWidth,
+    textDecoration,
+    lineHeight,
+    fontSize,
+    letterSpacing
+  } = attributes;
+  const [fontFamilies, setFontFamilies] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.useState)([]);
+  const [allFonts, setAllFonts] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.useState)([]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.useEffect)(() => {
+    const apiUrl = `https://www.googleapis.com/webfonts/v1/webfonts?key=${_local__WEBPACK_IMPORTED_MODULE_4__.API_KEY}`;
+    fetch(apiUrl).then(res => res.json()).then(data => {
+      const allFonts = data.items;
+      setAllFonts(allFonts);
+      const labels = allFonts.map((f, i) => ({
+        label: f.family,
+        variants: f.variants,
+        id: i
+      }));
+      // console.log(allFonts)
+      setFontFamilies(labels);
+    }).catch(error => {
+      console.error('Error fetching fonts:', error);
+    });
+  }, []);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.MenuGroup, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Tab Button Settings', 'demo-tabs')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ToggleControl, {
+    label: "Enable Button Border Radius",
+    checked: hasBorderRadius,
+    onChange: newValue => {
+      setAttributes({
+        btnBorderRadius: 0,
+        hasBorderRadius: newValue
+      });
+    }
+  }), hasBorderRadius && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.RangeControl, {
+    value: btnBorderRadius,
+    label: "Add Border Radius",
+    min: 0,
+    max: 50,
+    onChange: val => {
+      setAttributes({
+        btnBorderRadius: val
+      });
+    }
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.__experimentalDivider, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "TYPOGRAPHY"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.DropdownMenu, {
+    icon: "admin-customizer"
+  }, ({
+    onClose
+  }) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      width: '240px'
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select Font Family', 'demo-tabs'),
+    value: fontFamily,
+    options: fontFamilies,
+    onChange: value => {
+      const font = allFonts.find(f => f.family === value);
+      setAttributes({
+        fontFamily: font.family,
+        fontCategory: font.category
+      });
+    }
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.MenuGroup, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Font Style', 'demo-tabs')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
+    value: fontVisualStyle,
+    options: [{
+      label: 'Default',
+      value: 'default'
+    }, {
+      label: 'Italic',
+      value: 'italic'
+    }],
+    onChange: change => {
+      setAttributes({
+        fontVisualStyle: change
+      });
+    },
+    __nextHasNoMarginBottom: true
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.MenuGroup, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Font Width', 'demo-tabs')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
+    value: fontWidth,
+    options: [{
+      label: '400',
+      value: '400'
+    }, {
+      label: '500',
+      value: '500'
+    }],
+    onChange: change => {
+      setAttributes({
+        fontWidth: change
+      });
+    },
+    __nextHasNoMarginBottom: true
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.MenuGroup, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Text Decoration', 'demo-tabs')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.__experimentalToggleGroupControl, {
+    onChange: state => {
+      setAttributes({
+        textDecoration: state
+      });
+    },
+    value: textDecoration,
+    isBlock: true
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.__experimentalToggleGroupControlOption, {
+    value: "none",
+    label: "T"
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.__experimentalToggleGroupControlOption, {
+    value: "underline",
+    label: "Underline"
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.__experimentalToggleGroupControlOption, {
+    value: "line-break",
+    label: "Line Break"
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.MenuGroup, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select Font Size', 'demo-tabs')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.RangeControl, {
+    value: fontSize,
+    min: 10,
+    max: 30,
+    onChange: v => {
+      setAttributes({
+        fontSize: v
+      });
+    }
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.MenuGroup, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Letter Spacing', 'demo-tabs')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.RangeControl, {
+    value: letterSpacing,
+    min: 0,
+    max: 50,
+    onChange: v => {
+      setAttributes({
+        letterSpacing: v
+      });
+    }
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.MenuGroup, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Line Height', 'demo-tabs')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.RangeControl, {
+    value: lineHeight,
+    min: 0,
+    max: 30,
+    onChange: v => {
+      setAttributes({
+        lineHeight: v
+      });
+    }
+  }))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AdvanceSettings);
 
@@ -530,7 +702,10 @@ function Edit({
     tabBtnBgColor,
     tabBtnBorderColor,
     activeBtnColor,
-    hoverBtnColor
+    hoverBtnColor,
+    btnBorderRadius,
+    fontFamily,
+    fontCategory
   } = attributes;
   const [activeTd, setActiveTd] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useState)();
   const tabTags = ['h1', 'h2', 'h3', 'h4', 'p'];
@@ -654,10 +829,10 @@ function Edit({
     tabTags: tabTags,
     attributes: attributes,
     setAttributes: setAttributes
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.__experimentalDivider, null), settingsPanelState === 'styles' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_tabs_styleSettings__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  }), settingsPanelState === 'styles' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_tabs_styleSettings__WEBPACK_IMPORTED_MODULE_8__["default"], {
     attributes: attributes,
     setAttributes: setAttributes
-  }), settingsPanelState === 'advance' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_tabs_advanceSettings__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  }), settingsPanelState === 'advanced' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_tabs_advanceSettings__WEBPACK_IMPORTED_MODULE_9__["default"], {
     attributes: attributes,
     setAttributes: setAttributes
   }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -678,7 +853,11 @@ function Edit({
   }, tabs?.map((tab, index) => {
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
       onClick: () => tabButtonClicked(tab.id, tabs_data),
-      style: getCustomStyles(tabBtnType, tab.id, active_tab),
+      style: {
+        ...getCustomStyles(tabBtnType, tab.id, active_tab),
+        borderRadius: btnBorderRadius,
+        fontFamily: `${(fontFamily, fontCategory)}`
+      },
       className: activeClass(tabBtnType, tab.id, active_tab),
       tagName: "p",
       key: index,
@@ -689,7 +868,9 @@ function Edit({
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText.Content, {
       style: {
         ...getCustomStyles(tabBtnType, tab.id + 1, active_tab),
-        textAlign: "center"
+        textAlign: "center",
+        borderRadius: btnBorderRadius,
+        fontFamily: `${(fontFamily, fontCategory)}`
       },
       tagName: "p",
       onClick: () => addNewTab(tabs?.length + 1),
@@ -702,7 +883,8 @@ function Edit({
       ...(buttonAlignment === 'row' ? {
         width: '80%'
       } : {
-        width: '100%'
+        width: '100%',
+        fontFamily: `${fontFamily}`
       })
     },
     className: "tab-content"
@@ -711,7 +893,8 @@ function Edit({
     style: {
       display: tab.id === active_tab ? 'block' : 'none',
       padding: '10px',
-      textAlign: tabTextAlignment
+      textAlign: tabTextAlignment,
+      fontFamily: `${fontFamily}`
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_tab__WEBPACK_IMPORTED_MODULE_4__["default"], {
     attributes: attributes,
@@ -750,6 +933,20 @@ __webpack_require__.r(__webpack_exports__);
   edit: _edit__WEBPACK_IMPORTED_MODULE_4__["default"],
   save: _save__WEBPACK_IMPORTED_MODULE_5__["default"]
 });
+
+/***/ }),
+
+/***/ "./src/local.js":
+/*!**********************!*\
+  !*** ./src/local.js ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   API_KEY: () => (/* binding */ API_KEY)
+/* harmony export */ });
+const API_KEY = 'AIzaSyDk4pe9MNGVrt3llulmdlfNWaQxzCc_b88';
 
 /***/ }),
 
@@ -1245,20 +1442,32 @@ function save({
     tabHeadingTagName,
     customClass,
     customStyle,
-    active_tab,
     activeBtnColor,
     buttonAlignment,
     tabWidth,
-    tabBtnType
+    tabBtnType,
+    btnBorderRadius,
+    fontFamily,
+    fontCategory
   } = attributes;
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
       display: 'flex',
       flexDirection: buttonAlignment,
-      width: tabWidth + 'px'
+      width: tabWidth + 'px',
+      fontFamily: `${(fontFamily, fontCategory)}`
     },
     ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save()
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    className: tabBtnType,
+    id: "hidden-field",
+    type: "hidden",
+    value: activeBtnColor
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    id: "hidden-field2",
+    type: "hidden",
+    value: customStyle?.backgroundColor
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: buttonAlignment === 'row' ? {
       width: '20%'
     } : {
@@ -1269,7 +1478,11 @@ function save({
   }, tabs?.map(tab => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     key: tab.id,
     "data-info": tab.id,
-    style: customStyle,
+    style: {
+      ...customStyle,
+      borderRadius: btnBorderRadius,
+      fontFamily: `${(fontFamily, fontCategory)}`
+    },
     id: `tab-button-${tab.id}`,
     className: `tab-button ${customClass}`
   }, tab.title))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -1285,7 +1498,8 @@ function save({
         width: '80%'
       } : {
         width: '100%'
-      })
+      }),
+      fontFamily: `${(fontFamily, fontCategory)}`
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     key: td.id,
@@ -1295,7 +1509,8 @@ function save({
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText.Content, {
     style: {
-      color: tabsColor?.find(t => t.tabId == td.tabId)?.textColor
+      color: tabsColor?.find(t => t.tabId == td.tabId)?.textColor,
+      fontFamily: `${(fontFamily, fontCategory)}`
     },
     value: td.title,
     tagName: tabHeadingTagName
@@ -1335,7 +1550,9 @@ function Tab({
   const desc = data?.desc;
   const {
     tabHeadingTagName,
-    tabsColor
+    tabsColor,
+    fontFamily,
+    fontCategory
   } = attributes;
   const onChangeTitle = (newTitle, tabId) => {
     if (tabId) {
@@ -1372,11 +1589,13 @@ function Tab({
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
       color: tabsColor?.find(t => t?.tabId == active_tab).textColor,
-      backgroundColor: tabsColor?.find(t => t?.tabId == active_tab).bgColor
+      backgroundColor: tabsColor?.find(t => t?.tabId == active_tab).bgColor,
+      fontFamily: `${(fontFamily, fontCategory)}`
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
     style: {
-      color: tabsColor?.find(t => t.tabId == active_tab)?.textColor
+      color: tabsColor?.find(t => t.tabId == active_tab)?.textColor,
+      fontFamily: `${(fontFamily, fontCategory)}`
     },
     tagName: tabHeadingTagName,
     value: title ? title : 'Enter a Title',
@@ -1385,6 +1604,9 @@ function Tab({
     }
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
     tagName: "p",
+    style: {
+      fontFamily: `${(fontFamily, fontCategory)}`
+    },
     placeholder: "Enter description",
     onChange: e => onChangeDesc(e, data?.tabId, tabs_data),
     value: desc ? desc : 'enter description'

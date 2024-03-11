@@ -3,7 +3,7 @@ import { RichText } from '@wordpress/block-editor';
 function Tab({ data, setAttributes, tabs_data, active_tab, attributes }) {
 	const title = data?.title;
 	const desc = data?.desc;
-	const { tabHeadingTagName, tabsColor } = attributes;
+	const { tabHeadingTagName, tabsColor, fontFamily, fontCategory } = attributes;
 
 	const onChangeTitle = (newTitle, tabId) => {
 		if (tabId) {
@@ -39,12 +39,14 @@ function Tab({ data, setAttributes, tabs_data, active_tab, attributes }) {
 				backgroundColor: tabsColor?.find(
 					(t) => t?.tabId == active_tab
 				).bgColor,
+				fontFamily: `${fontFamily, fontCategory}`
 			}}
 		>
 			<RichText
 				style={{
 					color: tabsColor?.find((t) => t.tabId == active_tab)
 						?.textColor,
+					fontFamily: `${fontFamily, fontCategory}`
 				}}
 				tagName={tabHeadingTagName}
 				value={title ? title : 'Enter a Title'}
@@ -54,6 +56,7 @@ function Tab({ data, setAttributes, tabs_data, active_tab, attributes }) {
 			/>
 			<RichText
 				tagName="p"
+				style={{ fontFamily: `${fontFamily, fontCategory}` }}
 				placeholder="Enter description"
 				onChange={(e) => onChangeDesc(e, data?.tabId, tabs_data)}
 				value={desc ? desc : 'enter description'}
