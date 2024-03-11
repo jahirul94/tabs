@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Demo Tabs1
+ * Plugin Name:       Demo Tabs
  * Description:       Example block scaffolded with Create Block tool.
  * Requires at least: 6.1
  * Requires PHP:      7.0

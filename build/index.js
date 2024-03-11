@@ -619,6 +619,14 @@ function Edit({
       };
     }
   };
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useEffect)(() => {
+    setAttributes({
+      customStyle: getCustomStyles(tabBtnType, 1, '*')
+    });
+    setAttributes({
+      customClass: activeClass(tabBtnType, 1, '*')
+    });
+  }, [active_tab, tabBtnType, tabBtnBgColor, tabBtnBorderColor, tabBtnTextColor]);
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
@@ -1234,26 +1242,57 @@ function save({
     tabs,
     tabs_data,
     tabsColor,
-    tabHeadingTagName
+    tabHeadingTagName,
+    customClass,
+    customStyle,
+    active_tab,
+    activeBtnColor,
+    buttonAlignment,
+    tabWidth,
+    tabBtnType
   } = attributes;
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      display: 'flex',
+      flexDirection: buttonAlignment,
+      width: tabWidth + 'px'
+    },
     ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save()
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "tab-list"
+    style: buttonAlignment === 'row' ? {
+      width: '20%'
+    } : {
+      width: '100%',
+      marginBottom: '5px'
+    },
+    className: buttonAlignment === 'column' ? 'tab-list' : 'tab-list-col'
   }, tabs?.map(tab => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     key: tab.id,
     "data-info": tab.id,
-    className: "tab-button"
+    style: customStyle,
+    id: `tab-button-${tab.id}`,
+    className: `tab-button ${customClass}`
   }, tab.title))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      width: tabWidth + 'px'
+    },
     className: "tab-content-frontend"
   }, tabs_data?.map(td => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
       color: tabsColor?.find(t => t.tabId == td.tabId)?.textColor,
-      backgroundColor: tabsColor?.find(t => t.tabId == td.tabId)?.bgColor
+      backgroundColor: tabsColor?.find(t => t.tabId == td.tabId)?.bgColor,
+      ...(buttonAlignment === 'row' ? {
+        width: '80%'
+      } : {
+        width: '100%'
+      })
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     key: td.id,
-    className: `div-data-${td.tabId} btn-all inactive tab-content`
+    className: `div-data-${td.tabId} btn-all inactive tab-content`,
+    style: {
+      padding: '5px'
+    }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText.Content, {
     style: {
       color: tabsColor?.find(t => t.tabId == td.tabId)?.textColor

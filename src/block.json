@@ -125,6 +125,14 @@
 		"hoverBtnColor": {
 			"type": "string",
 			"default": "#007bff"
+		},
+		"customStyle": {
+			"type": "object",
+			"default": {}
+		},
+		"customClass": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"textdomain": "demo-tabs",

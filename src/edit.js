@@ -101,6 +101,12 @@ function Edit({ attributes, setAttributes }) {
 		}
 	};
 
+	useEffect(() => {
+		setAttributes({ customStyle: getCustomStyles(tabBtnType, 1, '*') });
+		setAttributes({ customClass: activeClass(tabBtnType, 1, '*') });
+	}, [active_tab, tabBtnType, tabBtnBgColor, tabBtnBorderColor, tabBtnTextColor]);
+
+
 	return (
 		<div {...useBlockProps()}>
 			<BlockControls group="inline">
@@ -167,6 +173,7 @@ function Edit({ attributes, setAttributes }) {
 										</div>
 									)
 									}
+
 								</>
 							);
 						})}

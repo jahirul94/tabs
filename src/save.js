@@ -2,22 +2,24 @@ import { RichText, useBlockProps } from '@wordpress/block-editor';
 import './style.scss';
 
 function save({ attributes }) {
-	const { tabs, tabs_data, tabsColor, tabHeadingTagName } = attributes;
+	const { tabs, tabs_data, tabsColor, tabHeadingTagName, customClass, customStyle, active_tab, activeBtnColor, buttonAlignment, tabWidth, tabBtnType } = attributes;
 
 	return (
-		<div {...useBlockProps.save()}>
-			<div className="tab-list">
+		<div style={{ display: 'flex', flexDirection: buttonAlignment, width: tabWidth + 'px' }} {...useBlockProps.save()}>
+			<div style={buttonAlignment === 'row' ? { width: '20%' } : { width: '100%', marginBottom: '5px' }} className={buttonAlignment === 'column' ? 'tab-list' : 'tab-list-col'}>
 				{tabs?.map((tab) => (
 					<button
 						key={tab.id}
 						data-info={tab.id}
-						className="tab-button"
+						style={customStyle}
+						id={`tab-button-${tab.id}`}
+						className={`tab-button ${customClass}`}
 					>
 						{tab.title}
 					</button>
 				))}
 			</div>
-			<div className="tab-content-frontend">
+			<div style={{ width: tabWidth + 'px' }} className="tab-content-frontend">
 				{tabs_data?.map((td) => (
 					<div
 						style={{
@@ -27,11 +29,13 @@ function save({ attributes }) {
 							backgroundColor: tabsColor?.find(
 								(t) => t.tabId == td.tabId
 							)?.bgColor,
+							...(buttonAlignment === 'row' ? { width: '80%' } : { width: '100%' })
 						}}
 					>
 						<div
 							key={td.id}
 							className={`div-data-${td.tabId} btn-all inactive tab-content`}
+							style={{ padding: '5px' }}
 						>
 							<RichText.Content
 								style={{
@@ -47,7 +51,7 @@ function save({ attributes }) {
 					</div>
 				))}
 			</div>
-		</div>
+		</div >
 	);
 }
 export default save;
