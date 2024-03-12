@@ -23,8 +23,8 @@
 
 // hover css
 .tab-button-primary:hover {
-	background-color: #fff;
-	color: #007bff;
+	color: #fff;
+	background-color: #003cff;
 }
 
 .tab-button-secondary:hover {
@@ -33,12 +33,13 @@
 }
 
 .primary-button-active {
-	background-color: #fff;
-	color: #007bff;
+	background-color: #003cff;
+	color: #fff;
 	border: 2px solid gray;
 	cursor: pointer;
 	padding: 10px;
 	margin: 0;
+	font-size: 110%;
 }
 
 .secondary-button-active {
@@ -109,4 +110,25 @@
 .panel-body-header {
 	text-align: center;
 	width: 30%;
+}
+
+// responsive hidden on mobile
+@media (max-width: 576px) {
+	.hidden-mobile {
+		display: none;
+	}
+}
+
+// tablet css
+@media (min-width: 577px) and (max-width: 992px) {
+	.hidden-tablet {
+		display: none;
+	}
+}
+
+// desktop css
+@media (min-width: 993px) {
+	.hidden-desktop {
+		display: none;
+	}
 }

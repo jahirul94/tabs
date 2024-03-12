@@ -9,7 +9,10 @@
 	"supports": {
 		"html": false
 	},
-	"keywords": [ "demo", "tabs" ],
+	"keywords": [
+		"demo",
+		"tabs"
+	],
 	"attributes": {
 		"tabs": {
 			"type": "array",
@@ -165,11 +168,11 @@
 		},
 		"letterSpacing": {
 			"type": "number",
-			"default": "0"
+			"default": "1"
 		},
 		"lineHeight": {
 			"type": "number",
-			"default": "0"
+			"default": "2"
 		},
 		"tabPadding": {
 			"type": "object",
@@ -186,6 +189,18 @@
 				"color": "#808080",
 				"style": "solid",
 				"width": "1px"
+			}
+		},
+		"tabBorderRadius": {
+			"type": "number",
+			"default": 0
+		},
+		"responsiveConditions": {
+			"type": "object",
+			"default": {
+				"desktop": false,
+				"tablet": false,
+				"mobile": false
 			}
 		}
 	},

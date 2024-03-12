@@ -4,7 +4,6 @@ import {
 	ButtonGroup,
 	Dashicon,
 	MenuGroup,
-	Tooltip,
 	__experimentalDivider as Divider,
 	RangeControl,
 } from '@wordpress/components';

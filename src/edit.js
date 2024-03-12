@@ -4,6 +4,7 @@ import {
 	RichText,
 	BlockControls,
 	InspectorControls,
+	InnerBlocks,
 } from '@wordpress/block-editor';
 import './editor.scss';
 import Tab from './tab';
@@ -19,8 +20,11 @@ import {
 import GeneralSettings from './components/tabs/generalSettings';
 import StyleSettings from './components/tabs/styleSettings';
 import AdvanceSettings from './components/tabs/advanceSettings';
+import { select, dispatch } from '@wordpress/data';
 
-function Edit( { attributes, setAttributes } ) {
+
+function Edit({ attributes, setAttributes, clientId }) {
+
 	const {
 		tabs,
 		active_tab,
@@ -46,68 +50,69 @@ function Edit( { attributes, setAttributes } ) {
 		letterSpacing,
 		tabPadding,
 		tabBorder,
+		tabBorderRadius,
 	} = attributes;
 
-	const [ activeTd, setActiveTd ] = useState();
-	const tabTags = [ 'h1', 'h2', 'h3', 'h4', 'p' ];
+	const [activeTd, setActiveTd] = useState();
+	const tabTags = ['h1', 'h2', 'h3', 'h4', 'p'];
 
-	useEffect( () => {
-		const data = tabs_data.find( ( td ) => td.tabId === active_tab );
-		setActiveTd( data );
-	}, [ active_tab ] );
+	useEffect(() => {
+		const data = tabs_data.find((td) => td.tabId === active_tab);
+		setActiveTd(data);
+	}, [active_tab]);
 
 	// function for create a new tab
-	const addNewTab = ( tabId ) => {
+	const addNewTab = (tabId) => {
 		const newTab = {
-			id: `${ tabId }`,
-			title: `Tab-${ tabId }`,
+			id: `${tabId}`,
+			title: `Tab-${tabId}`,
 			active: false,
 		};
-		setAttributes( { tabs: [ ...tabs, newTab ] } );
+		setAttributes({ tabs: [...tabs, newTab] });
 
 		const newData = {
-			tabId: `${ tabId }`,
-			title: `demo title ${ tabId }`,
+			tabId: `${tabId}`,
+			title: `demo title ${tabId}`,
 			desc: '',
 		};
-		setAttributes( { tabs_data: [ ...tabs_data, newData ] } );
+		setAttributes({ tabs_data: [...tabs_data, newData] });
 
 		// create color template
 		const newColor = {
 			textColor: '#000000',
 			bgColor: '#F9F9F9',
-			tabId: `${ tabId }`,
+			tabId: `${tabId}`,
 		};
-		setAttributes( { tabsColor: [ ...tabsColor, newColor ] } );
+		setAttributes({ tabsColor: [...tabsColor, newColor] });
 	};
 
-	const onChangeTitle = ( newText, id ) => {
-		setAttributes( ( tabs.find( ( t ) => t.id === id ).title = newText ) );
+	const onChangeTitle = (newText, id) => {
+		setAttributes((tabs.find((t) => t.id === id).title = newText));
 	};
 
-	const tabButtonClicked = ( tabId, tabs_data ) => {
-		setAttributes( { active_tab: tabId } );
-		const data = tabs_data.find( ( td ) => td.tabId === tabId );
-		setActiveTd( data );
+	const tabButtonClicked = (tabId, tabs_data) => {
+		setAttributes({ active_tab: tabId });
+		const data = tabs_data.find((td) => td.tabId === tabId);
+		setActiveTd(data);
 	};
 
-	const deleteTab = ( id ) => {
-		const updatedTabs = tabs.filter( ( tab ) => tab.id !== id );
+	const deleteTab = (id) => {
+		const updatedTabs = tabs.filter((tab) => tab.id !== id);
 		const updatedTabsData = tabs_data.filter(
-			( data ) => data.tabId !== id
+			(data) => data.tabId !== id
 		);
-		setAttributes( { tabs: updatedTabs, tabs_data: updatedTabsData } );
+		setAttributes({ tabs: updatedTabs, tabs_data: updatedTabsData });
 	};
 
-	const activeClass = ( tabBtnType, tabId, activeTab ) => {
-		if ( tabBtnType === 'primary' ) {
-			if ( tabId == activeTab ) {
+	const activeClass = (tabBtnType, tabId, activeTab) => {
+		if (tabBtnType === 'primary') {
+			if (tabId == activeTab) {
 				return 'primary-button-active';
 			} else {
 				return 'tab-button-primary';
 			}
-		} else if ( tabBtnType === 'secondary' ) {
-			if ( tabId == activeTab ) {
+		} else if (tabBtnType === 'secondary') {
+			if (tabId == activeTab) {
 				return 'secondary-button-active';
 			} else {
 				return 'tab-button-secondary';
@@ -117,49 +122,58 @@ function Edit( { attributes, setAttributes } ) {
 		}
 	};
 
-	const getCustomStyles = ( tabBtnType, tabId, active_tab ) => {
-		if ( tabBtnType === 'custom' ) {
-			if ( tabId == active_tab ) {
+	const getCustomStyles = (tabBtnType, tabId, active_tab) => {
+		if (tabBtnType === 'custom') {
+			if (tabId == active_tab) {
 				return {
 					color: tabBtnTextColor,
-					border: `2px solid ${ tabBtnBorderColor }`,
+					border: `2px solid ${tabBtnBorderColor}`,
 					backgroundColor: activeBtnColor,
 				};
 			}
 			return {
 				color: tabBtnTextColor,
-				border: `2px solid ${ tabBtnBorderColor }`,
+				border: `2px solid ${tabBtnBorderColor}`,
 				backgroundColor: tabBtnBgColor,
 			};
 		}
 	};
 
-	useEffect( () => {
-		setAttributes( { customStyle: getCustomStyles( tabBtnType, 1, '*' ) } );
-		setAttributes( { customClass: activeClass( tabBtnType, 1, '*' ) } );
+	useEffect(() => {
+		setAttributes({ customStyle: getCustomStyles(tabBtnType, 1, '*') });
+		setAttributes({ customClass: activeClass(tabBtnType, 1, '*') });
 	}, [
 		active_tab,
 		tabBtnType,
 		tabBtnBgColor,
 		tabBtnBorderColor,
 		tabBtnTextColor,
-	] );
+	]);
+
+	// todo : child block have data but not working 
+	useEffect(() => {
+		var children = select('core/block-editor').getBlocksByClientId(clientId)[0].innerBlocks;
+		children.forEach(function (child) {
+			dispatch('core/block-editor').updateBlockAttributes(child.clientId, { activeTab: active_tab, tabs })
+		});
+	}, [active_tab, tabs])
+
 
 	return (
-		<div { ...useBlockProps() }>
+		<div {...useBlockProps()}>
 			<BlockControls group="inline">
-				<ToolbarButton onClick={ () => deleteTab( active_tab ) }>
-					{ __( 'Remove Tab', 'demo-tabs' ) }
+				<ToolbarButton onClick={() => deleteTab(active_tab)}>
+					{__('Remove Tab', 'demo-tabs')}
 				</ToolbarButton>
 			</BlockControls>
 			<InspectorControls>
-				<PanelBody title={ __( 'Tab Settings Panel', 'demo-tabs' ) }>
-					{ /* panel body header  */ }
+				<PanelBody title={__('Tab Settings Panel', 'demo-tabs')}>
+					{ /* panel body header  */}
 					<ToggleGroupControl
-						onChange={ ( state ) =>
-							setAttributes( { settingsPanelState: state } )
+						onChange={(state) =>
+							setAttributes({ settingsPanelState: state })
 						}
-						value={ settingsPanelState }
+						value={settingsPanelState}
 						isBlock
 					>
 						<ToggleGroupControlOption
@@ -176,40 +190,40 @@ function Edit( { attributes, setAttributes } ) {
 						/>
 					</ToggleGroupControl>
 					<Divider />
-					{ /* general settings components  */ }
-					{ settingsPanelState === 'general' && (
+					{ /* general settings components  */}
+					{settingsPanelState === 'general' && (
 						<GeneralSettings
-							tabTags={ tabTags }
-							attributes={ attributes }
-							setAttributes={ setAttributes }
+							tabTags={tabTags}
+							attributes={attributes}
+							setAttributes={setAttributes}
 						/>
-					) }
+					)}
 
-					{ /* styles settings components  */ }
-					{ settingsPanelState === 'styles' && (
+					{ /* styles settings components  */}
+					{settingsPanelState === 'styles' && (
 						<StyleSettings
-							attributes={ attributes }
-							setAttributes={ setAttributes }
+							attributes={attributes}
+							setAttributes={setAttributes}
 						/>
-					) }
+					)}
 
-					{ /* advance settings components  */ }
-					{ settingsPanelState === 'advanced' && (
+					{ /* advance settings components  */}
+					{settingsPanelState === 'advanced' && (
 						<AdvanceSettings
-							attributes={ attributes }
-							setAttributes={ setAttributes }
+							attributes={attributes}
+							setAttributes={setAttributes}
 						/>
-					) }
+					)}
 				</PanelBody>
 			</InspectorControls>
 
-			{ /* block content */ }
+			{ /* block content */}
 			<div
-				style={ {
+				style={{
 					display: 'flex',
 					flexDirection: buttonAlignment,
 					width: tabWidth + 'px',
-				} }
+				}}
 			>
 				<div
 					style={
@@ -226,122 +240,127 @@ function Edit( { attributes, setAttributes } ) {
 								: 'tab-list-col'
 						}
 					>
-						{ tabs?.map( ( tab, index ) => {
+						{tabs?.map((tab, index) => {
 							return (
 								<>
 									<RichText
-										onClick={ () =>
+										onClick={() =>
 											tabButtonClicked(
 												tab.id,
 												tabs_data
 											)
 										}
-										style={ {
+										style={{
 											...getCustomStyles(
 												tabBtnType,
 												tab.id,
 												active_tab
 											),
 											borderRadius: btnBorderRadius,
-											fontFamily: `${
-												( fontFamily, fontCategory )
-											}`,
+											fontFamily: `${(fontFamily, fontCategory)
+												}`,
 											fontWeight: fontWidth,
 											textDecoration: textDecoration,
 											fontStyle: fontVisualStyle,
-										} }
-										className={ activeClass(
+										}}
+										className={activeClass(
 											tabBtnType,
 											tab.id,
 											active_tab
-										) }
+										)}
 										tagName="p"
-										key={ index }
-										onChange={ ( e ) =>
-											onChangeTitle( e, tab.id )
+										key={index}
+										onChange={(e) =>
+											onChangeTitle(e, tab.id)
 										}
-										value={ tab.title }
+										value={tab.title}
 									></RichText>
-									{ index === tabs?.length - 1 && (
+									{index === tabs?.length - 1 && (
 										<div className="add-more-btn">
 											<RichText.Content
-												style={ {
+												style={{
 													...getCustomStyles(
 														tabBtnType,
 														tab.id + 1,
-														active_tab
+														'*'
 													),
 													textAlign: 'center',
 													borderRadius:
 														btnBorderRadius,
-													fontFamily: `${
-														( fontFamily,
-														fontCategory )
-													}`,
+													fontFamily: `${(fontFamily,
+														fontCategory)
+														}`,
 													fontWeight: fontWidth,
 													textDecoration:
 														textDecoration,
 													fontStyle: fontVisualStyle,
-												} }
+												}}
 												tagName="p"
-												onClick={ () =>
+												onClick={() =>
 													addNewTab(
 														tabs?.length + 1
 													)
 												}
-												className={ activeClass(
+												className={activeClass(
 													tabBtnType,
 													tab.id,
-													active_tab
-												) }
+													'*'
+												)}
 												value="+"
 											/>
 										</div>
-									) }
+									)}
 								</>
 							);
-						} ) }
+						})}
 					</div>
 				</div>
 				<div
-					style={ {
+					style={{
 						backgroundColor: tabsColor?.find(
-							( t ) => t.tabId === active_tab
+							(t) => t.tabId === active_tab
 						)?.bgColor,
-						...( buttonAlignment === 'row'
+						...(buttonAlignment === 'row'
 							? { width: '80%' }
 							: {
-									width: '100%',
-									fontFamily: `${ fontFamily }`,
-							  } ),
+								width: '100%',
+								fontFamily: `${fontFamily}`,
+							}),
 						paddingTop: tabPadding?.top,
 						paddingRight: tabPadding?.right,
 						paddingBottom: tabPadding?.bottom,
 						paddingLeft: tabPadding?.left,
-						border: `${ tabBorder?.width } ${ tabBorder?.style } ${ tabBorder?.color }`,
-					} }
+						border: `${tabBorder?.width} ${tabBorder?.style} ${tabBorder?.color}`,
+						borderRadius: tabBorderRadius + 'px',
+					}}
 					className="tab-content"
 				>
-					{ tabs?.map( ( tab ) => (
+					{tabs?.map((tab) => (
 						<div
-							key={ tab.id }
-							style={ {
+							key={tab.id}
+							style={{
 								display:
 									tab.id === active_tab ? 'block' : 'none',
 								padding: '10px',
 								textAlign: tabTextAlignment,
-								fontFamily: `${ fontFamily }`,
-							} }
+								fontFamily: `${fontFamily}`,
+							}}
 						>
 							<Tab
-								attributes={ attributes }
-								data={ activeTd }
-								setAttributes={ setAttributes }
-								tabs_data={ tabs_data }
-								active_tab={ active_tab }
+								attributes={attributes}
+								data={activeTd}
+								setAttributes={setAttributes}
+								tabs_data={tabs_data}
+								active_tab={active_tab}
 							></Tab>
+							<InnerBlocks
+								allowedBlocks={['create-block/tab']}
+								template={[
+									['create-block/tab'],
+								]}
+							/>
 						</div>
-					) ) }
+					))}
 				</div>
 			</div>
 		</div>

@@ -1,0 +1,23 @@
+{
+  "apiVersion": 3,
+  "name": "create-block/demo-tab",
+  "version": "1.0.0",
+  "title": "Demo Tabs",
+  "category": "widgets",
+  "description": "Example block scaffolded with Create Block tool.",
+  "example": {},
+  "supports": {
+    "html": false
+  },
+  "keywords": [
+    "demo",
+    "tabs"
+  ],
+  "attributes": {
+    "parentId": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "textdomain": "demo-tabs"
+}

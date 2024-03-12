@@ -39,6 +39,7 @@ const StyleSettings = ( { attributes, setAttributes } ) => {
 		btnBorderRadius,
 		tabPadding,
 		tabBorder,
+		tabBorderRadius,
 	} = attributes;
 
 	const [ fontFamilies, setFontFamilies ] = useState( [] );
@@ -382,6 +383,16 @@ const StyleSettings = ( { attributes, setAttributes } ) => {
 					setAttributes( { tabBorder: newBorder } );
 				} }
 				value={ tabBorder }
+			/>
+			<Divider />
+			<RangeControl
+				label={ __( 'Tab Border Radius', 'demo-tabs' ) }
+				value={ tabBorderRadius }
+				min={ 0 }
+				max={ 200 }
+				onChange={ ( v ) => {
+					setAttributes( { tabBorderRadius: v } );
+				} }
 			/>
 		</div>
 	);
