@@ -3,10 +3,10 @@ import { __ } from '@wordpress/i18n';
 import Edit from './edit';
 import save from './save';
 
-registerBlockType('create-block/modal', {
-	title: __('Demo Modal', 'demo-tabs'),
-	description: __('Demo Modal description', 'demo-tabs'),
-	keywords: ['demo', 'modal'],
+registerBlockType( 'create-block/modal', {
+	title: __( 'Demo Modal', 'demo-tabs' ),
+	description: __( 'Demo Modal description', 'demo-tabs' ),
+	keywords: [ 'demo', 'modal' ],
 	icon: 'external',
 	attributes: {
 		name: {
@@ -73,4 +73,4 @@ registerBlockType('create-block/modal', {
 	},
 	edit: Edit,
 	save,
-});
+} );

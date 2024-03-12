@@ -103,10 +103,6 @@
   display: none;
 }
 
-.tab-content {
-  border: 2px solid gray;
-}
-
 .panel-body-header {
   text-align: center;
   width: 30%;

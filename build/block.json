@@ -92,7 +92,7 @@
     },
     "buttonAlignment": {
       "type": "string",
-      "default": "row"
+      "default": "column"
     },
     "tabTextAlignment": {
       "type": "string",
@@ -173,6 +173,23 @@
     "lineHeight": {
       "type": "number",
       "default": "0"
+    },
+    "tabPadding": {
+      "type": "object",
+      "default": {
+        "top": "10px",
+        "left": "10px",
+        "right": "10px",
+        "bottom": "10px"
+      }
+    },
+    "tabBorder": {
+      "type": "object",
+      "default": {
+        "color": "#808080",
+        "style": "solid",
+        "width": "1px"
+      }
     }
   },
   "textdomain": "demo-tabs",
