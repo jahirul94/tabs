@@ -1,11 +1,10 @@
 import { InnerBlocks, RichText, useBlockProps } from '@wordpress/block-editor';
 import { Dashicon } from '@wordpress/components';
 
-function save( { attributes } ) {
+function save({ attributes }) {
 	const {
-		name,
-		age,
-		email,
+		title,
+		desc,
 		openButton,
 		closeButton,
 		openIcon,
@@ -25,72 +24,71 @@ function save( { attributes } ) {
 	let buttonStyles =
 		buttonLayout === 'custom'
 			? {
-					backgroundColor: buttonBgColor,
-					color: buttonColor,
-					fontSize: buttonFontSize + 'px',
-			  }
+				backgroundColor: buttonBgColor,
+				color: buttonColor,
+				fontSize: buttonFontSize + 'px',
+			}
 			: {};
-	let classNames = `${ buttonLayout === 'primary' && 'modal-primary-button' }
-	${ buttonLayout === 'secondary' && 'modal-secondary-button' } 
-	${ buttonLayout === 'custom' && 'custom-button' }`;
+	let classNames = `${buttonLayout === 'primary' && 'modal-primary-button'}
+	${buttonLayout === 'secondary' && 'modal-secondary-button'} 
+	${buttonLayout === 'custom' && 'custom-button'}`;
 
 	return (
 		<div
-			{ ...useBlockProps.save( {
+			{...useBlockProps.save({
 				className: 'modal-body',
-			} ) }
+			})}
 		>
 			<div className="modal-header">
 				<button
-					style={ {
+					style={{
 						...buttonStyles,
 						borderRadius: buttonBorderRadius + 'px',
-					} }
-					className={ classNames }
+					}}
+					className={classNames}
 					id="modal-button"
 				>
-					{ ( buttonType === 'textBox' && openButton ) ||
-						( buttonType === 'icon' && (
-							<Dashicon icon={ openIcon } />
-						) ) ||
-						( buttonType === 'default' && 'Open Modal' ) }
+					{(buttonType === 'textBox' && openButton) ||
+						(buttonType === 'icon' && (
+							<Dashicon icon={openIcon} />
+						)) ||
+						(buttonType === 'default' && 'Open Modal')}
 				</button>
 			</div>
 			<div
-				style={ { width: modalWidth + 'px' } }
+				style={{ width: modalWidth + 'px' }}
 				className="close-btn-section"
 			>
 				<button
-					style={ {
+					style={{
 						...buttonStyles,
 						borderRadius: buttonBorderRadius + 'px',
 						marginRight: '-40px',
-					} }
-					className={ classNames }
+					}}
+					className={classNames}
 					id="modal-close"
 				>
-					{ ( buttonType === 'textBox' && closeButton ) ||
-						( buttonType === 'icon' && (
-							<Dashicon icon={ closeIcon } />
-						) ) ||
-						( buttonType === 'default' && 'X' ) }
+					{(buttonType === 'textBox' && closeButton) ||
+						(buttonType === 'icon' && (
+							<Dashicon icon={closeIcon} />
+						)) ||
+						(buttonType === 'default' && 'X')}
 				</button>
 			</div>
 			<div
-				style={ {
+				style={{
 					width: modalWidth + 'px',
 					borderRadius: modalBorderRadius + 'px',
 					textAlign: modalTextAlign,
-				} }
+				}}
 				id="modal-content"
 				className="modal-hidden"
 			>
 				<RichText.Content
-					tagName={ modalHeadingTagName }
-					value={ name }
+					tagName={modalHeadingTagName}
+					value={title}
 				/>
-				<RichText.Content tagName="h4" value={ age } />
-				<RichText.Content tagName="h4" value={ email } />
+				<RichText.Content tagName="h4" value={desc} />
 				<InnerBlocks.Content />
 			</div>
 		</div>

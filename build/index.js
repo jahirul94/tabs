@@ -24,9 +24,8 @@ const Modal = ({
   setAttributes
 }) => {
   const {
-    name,
-    email,
-    age,
+    title,
+    desc,
     modalWidth,
     modalBorderRadius,
     modalTextAlign,
@@ -43,28 +42,19 @@ const Modal = ({
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
     tagName: modalHeadingTagName,
     placeholder: "Modal Title",
-    value: name,
-    onChange: newName => {
+    value: title,
+    onChange: title => {
       setAttributes({
-        name: newName
+        title: title
       });
     }
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
     tagName: "h5",
-    placeholder: "Enter text",
-    value: age,
-    onChange: newAge => {
+    placeholder: "enter description",
+    value: desc,
+    onChange: newDesc => {
       setAttributes({
-        age: newAge
-      });
-    }
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
-    tagName: "h5",
-    placeholder: "Enter descriptions",
-    value: email,
-    onChange: newEmail => {
-      setAttributes({
-        email: newEmail
+        desc: newDesc
       });
     }
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks, {
@@ -1299,13 +1289,10 @@ __webpack_require__.r(__webpack_exports__);
   keywords: ['demo', 'modal'],
   icon: 'external',
   attributes: {
-    name: {
+    title: {
       type: 'string'
     },
-    age: {
-      type: 'string'
-    },
-    email: {
+    desc: {
       type: 'string'
     },
     buttonType: {
@@ -1341,8 +1328,8 @@ __webpack_require__.r(__webpack_exports__);
       default: '17'
     },
     modalWidth: {
-      type: 'string',
-      default: '600'
+      type: 'number',
+      default: '540'
     },
     modalBorderRadius: {
       type: 'number',
@@ -1390,9 +1377,8 @@ function save({
   attributes
 }) {
   const {
-    name,
-    age,
-    email,
+    title,
+    desc,
     openButton,
     closeButton,
     openIcon,
@@ -1456,13 +1442,10 @@ function save({
     className: "modal-hidden"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText.Content, {
     tagName: modalHeadingTagName,
-    value: name
+    value: title
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText.Content, {
     tagName: "h4",
-    value: age
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText.Content, {
-    tagName: "h4",
-    value: email
+    value: desc
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks.Content, null)));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (save);

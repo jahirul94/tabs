@@ -3,19 +3,16 @@ import { __ } from '@wordpress/i18n';
 import Edit from './edit';
 import save from './save';
 
-registerBlockType( 'create-block/modal', {
-	title: __( 'Demo Modal', 'demo-tabs' ),
-	description: __( 'Demo Modal description', 'demo-tabs' ),
-	keywords: [ 'demo', 'modal' ],
+registerBlockType('create-block/modal', {
+	title: __('Demo Modal', 'demo-tabs'),
+	description: __('Demo Modal description', 'demo-tabs'),
+	keywords: ['demo', 'modal'],
 	icon: 'external',
 	attributes: {
-		name: {
+		title: {
 			type: 'string',
 		},
-		age: {
-			type: 'string',
-		},
-		email: {
+		desc: {
 			type: 'string',
 		},
 		buttonType: {
@@ -51,8 +48,8 @@ registerBlockType( 'create-block/modal', {
 			default: '17',
 		},
 		modalWidth: {
-			type: 'string',
-			default: '600',
+			type: 'number',
+			default: '540',
 		},
 		modalBorderRadius: {
 			type: 'number',
@@ -73,4 +70,4 @@ registerBlockType( 'create-block/modal', {
 	},
 	edit: Edit,
 	save,
-} );
+});

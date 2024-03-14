@@ -1,58 +1,49 @@
 import { InnerBlocks, RichText } from '@wordpress/block-editor';
 
-const Modal = ( { isOpen, attributes, setAttributes } ) => {
+const Modal = ({ isOpen, attributes, setAttributes }) => {
 	const {
-		name,
-		email,
-		age,
+		title,
+		desc,
 		modalWidth,
 		modalBorderRadius,
 		modalTextAlign,
 		modalHeadingTagName,
 	} = attributes;
-	if ( ! isOpen ) return null;
+	if (!isOpen) return null;
 
 	return (
 		<div
-			style={ {
+			style={{
 				width: modalWidth + 'px',
 				borderRadius: modalBorderRadius + 'px',
 				textAlign: modalTextAlign,
-			} }
+			}}
 			id="modal-content"
 		>
 			<RichText
-				tagName={ modalHeadingTagName }
+				tagName={modalHeadingTagName}
 				placeholder="Modal Title"
-				value={ name }
-				onChange={ ( newName ) => {
-					setAttributes( { name: newName } );
-				} }
+				value={title}
+				onChange={(title) => {
+					setAttributes({ title: title });
+				}}
 			/>
 			<RichText
 				tagName="h5"
-				placeholder="Enter text"
-				value={ age }
-				onChange={ ( newAge ) => {
-					setAttributes( { age: newAge } );
-				} }
-			/>
-			<RichText
-				tagName="h5"
-				placeholder="Enter descriptions"
-				value={ email }
-				onChange={ ( newEmail ) => {
-					setAttributes( { email: newEmail } );
-				} }
+				placeholder="enter description"
+				value={desc}
+				onChange={(newDesc) => {
+					setAttributes({ desc: newDesc });
+				}}
 			/>
 			<InnerBlocks
-				allowedBlocks={ [
+				allowedBlocks={[
 					'core/image',
 					'core/gallery',
 					'core/paragraph',
 					'core/video',
-				] }
-				template={ [ [ 'core/image' ] ] }
+				]}
+				template={[['core/image']]}
 			/>
 		</div>
 	);
