@@ -44,7 +44,7 @@ registerBlockType('create-block/modal', {
 			default: '#fff',
 		},
 		buttonFontSize: {
-			type: 'string',
+			type: 'number',
 			default: '17',
 		},
 		modalWidth: {

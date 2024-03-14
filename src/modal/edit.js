@@ -107,8 +107,10 @@ function Edit({ attributes, setAttributes }) {
 				setAttributes={setAttributes}
 			></ModalButton>
 			<InspectorControls>
+				<br />
+				<br />
 				<PanelBody
-					title={__('Modal Settings Options', 'demo-tabs')}
+					title={__('Modal Button Setting Options', 'demo-tabs')}
 				>
 					<SelectControl
 						label={__(
@@ -259,9 +261,10 @@ function Edit({ attributes, setAttributes }) {
 							<Divider />
 						</Tooltip>
 					)}
-
+				</PanelBody>
+				<PanelBody title={__('Modal Content Options', 'demo-tabs')}>
 					{ /* modal contend settings  */}
-					<MenuGroup label="Modal Content Settings">
+					<MenuGroup>
 						<div
 							style={{
 								display: 'flex',
@@ -308,10 +311,11 @@ function Edit({ attributes, setAttributes }) {
 						<ButtonGroup
 							style={{
 								display: 'flex',
-								justifyContent: 'center',
+								justifyContent: 'space-around',
 							}}
 						>
 							<Button
+								style={{ width: '33%' }}
 								onClick={() =>
 									setAttributes({ modalTextAlign: 'left' })
 								}
@@ -319,6 +323,7 @@ function Edit({ attributes, setAttributes }) {
 								<Dashicon icon="align-left" />
 							</Button>
 							<Button
+								style={{ width: '33%' }}
 								onClick={() =>
 									setAttributes({
 										modalTextAlign: 'center',
@@ -328,6 +333,7 @@ function Edit({ attributes, setAttributes }) {
 								<Dashicon icon="align-center" />
 							</Button>
 							<Button
+								style={{ width: '33%' }}
 								onClick={() =>
 									setAttributes({ modalTextAlign: 'right' })
 								}
