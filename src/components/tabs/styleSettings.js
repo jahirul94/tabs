@@ -407,7 +407,7 @@ const StyleSettings = ({ attributes, setAttributes }) => {
 				label={__('Tab Border Radius', 'demo-tabs')}
 				value={tabBorderRadius}
 				min={0}
-				max={200}
+				max={40}
 				onChange={(v) => {
 					setAttributes({ tabBorderRadius: v });
 				}}

@@ -39,7 +39,6 @@
 	cursor: pointer;
 	padding: 10px;
 	margin: 0;
-	font-size: 110%;
 }
 
 .secondary-button-active {
@@ -137,7 +136,7 @@
 }
 
 .tab-image {
-	max-width: 100vh;
-	max-height: 500px;
 	overflow: hidden;
+	margin-left: auto;
+	margin-right: auto;
 }

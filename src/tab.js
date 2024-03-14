@@ -1,5 +1,4 @@
 import {
-	InnerBlocks,
 	MediaPlaceholder,
 	RichText,
 } from '@wordpress/block-editor';
@@ -26,7 +25,9 @@ function Tab({
 		lineHeight,
 		fontSize,
 		letterSpacing,
-		tabs,
+		tabWidth,
+		buttonAlignment,
+		tabPadding
 	} = attributes;
 
 	const { onSelectImage, onSelectURL } = mediaFunctions;
@@ -56,6 +57,8 @@ function Tab({
 			setAttributes({ tabs_data: updatedTabs });
 		}
 	};
+
+	const imageStyles = { width: `${tabWidth - (parseInt(tabPadding?.right) + parseInt(tabPadding?.left))}px`, height: '400px' };
 
 	return (
 		<div
@@ -103,8 +106,9 @@ function Tab({
 				disableMediaButtons={url}
 			/>
 			{url && (
-				<div className='tab-image'>
-					<img src={url} alt='tab image' />
+				<div>
+					{/* {console.log(`${tabWidth - 100}px`)} */}
+					<img style={imageStyles} className='tab-image' src={url} alt='tab image' />
 				</div>
 			)}
 		</div>

@@ -33,6 +33,8 @@ function save({ attributes }) {
 	const classes = `${desktop === true && 'hidden-desktop'} ${tablet === true && 'hidden-tablet'
 		} ${mobile === true && 'hidden-mobile'}`;
 
+	const imageStyles = { width: `${tabWidth - (parseInt(tabPadding?.right) + parseInt(tabPadding?.left))}px`, height: '400px' };
+
 	return (
 		<div
 			style={{
@@ -58,7 +60,7 @@ function save({ attributes }) {
 				style={
 					buttonAlignment === 'row'
 						? { width: '20%' }
-						: { width: '100%', marginBottom: '5px' }
+						: { width: tabWidth, marginBottom: '5px' }
 				}
 				className={
 					buttonAlignment === 'column' ? 'tab-list' : 'tab-list-col'
@@ -76,6 +78,7 @@ function save({ attributes }) {
 							textDecoration: textDecoration,
 							fontSize: fontSize,
 							fontStyle: fontVisualStyle,
+							width: buttonAlignment === 'row' && tabWidth / 6.8
 						}}
 						id={`tab-button-${tab.id}`}
 						className={`tab-button ${customClass} ${classes}`}
@@ -138,14 +141,12 @@ function save({ attributes }) {
 									fontStyle: fontVisualStyle,
 								}}
 								className='tab-title'
-								value={td.title}
+								value={td.title ? td.title : 'demo title'}
 								tagName={tabHeadingTagName}
 							/>
-							<RichText.Content style={{ fontSize: fontSize, }} value={td.desc} tagName="p" />
+							<RichText.Content style={{ fontSize: fontSize, }} value={td.desc ? td.desc : 'demo description'} tagName="p" />
 							{td?.img && (
-								<div className='tab-image'>
-									<img src={td?.img} alt='tab image' />
-								</div>
+								<img style={imageStyles} className='tab-image' src={td?.img} alt='tab image' />
 							)}
 						</div>
 					</div>
