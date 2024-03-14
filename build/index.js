@@ -302,7 +302,8 @@ const StyleSettings = ({
     btnBorderRadius,
     tabPadding,
     tabBorder,
-    tabBorderRadius
+    tabBorderRadius,
+    fontVariants
   } = attributes;
   const [fontFamilies, setFontFamilies] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useState)([]);
   const [allFonts, setAllFonts] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useState)([]);
@@ -316,7 +317,6 @@ const StyleSettings = ({
         variants: f.variants,
         id: i
       }));
-      // console.log(allFonts)
       setFontFamilies(labels);
     }).catch(error => {
       console.error('Error fetching fonts:', error);
@@ -476,9 +476,24 @@ const StyleSettings = ({
     options: fontFamilies,
     onChange: value => {
       const font = allFonts.find(f => f.family === value);
+      const fontVariantsLabel = (font?.variants || []).filter(f => !isNaN(f)).map((f, i) => ({
+        label: f,
+        value: f,
+        id: i
+      }));
+      const defaultVariants = [{
+        label: 400,
+        value: 400,
+        id: 1
+      }, {
+        label: 600,
+        value: 600,
+        id: 2
+      }];
       setAttributes({
         fontFamily: font.family,
-        fontCategory: font.category
+        fontCategory: font.category,
+        fontVariants: fontVariantsLabel.length > 1 ? fontVariantsLabel : defaultVariants
       });
     }
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.MenuGroup, {
@@ -502,13 +517,7 @@ const StyleSettings = ({
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Font Width', 'demo-tabs')
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
     value: fontWidth,
-    options: [{
-      label: '400',
-      value: '400'
-    }, {
-      label: '600',
-      value: '600'
-    }],
+    options: fontVariants,
     onChange: change => {
       setAttributes({
         fontWidth: change
@@ -630,10 +639,22 @@ __webpack_require__.r(__webpack_exports__);
 function Edit({
   attributes
 }) {
-  console.log(attributes);
+  const {
+    tabs,
+    tabs_data,
+    active_tab
+  } = attributes;
+  const style = tabs?.find(t => t.id == active_tab);
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: style?.id == active_tab ? {
+      display: 'block'
+    } : {
+      display: 'none'
+    },
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Hello from tab"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, null));
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Hello from tab"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
+    template: [['core/image']]
+  }));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Edit);
 
@@ -718,9 +739,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_tabs_generalSettings__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/tabs/generalSettings */ "./src/components/tabs/generalSettings.js");
 /* harmony import */ var _components_tabs_styleSettings__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/tabs/styleSettings */ "./src/components/tabs/styleSettings.js");
 /* harmony import */ var _components_tabs_advanceSettings__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/tabs/advanceSettings */ "./src/components/tabs/advanceSettings.js");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_10__);
-
 
 
 
@@ -784,7 +802,8 @@ function Edit({
     const newData = {
       tabId: `${tabId}`,
       title: `demo title ${tabId}`,
-      desc: ''
+      desc: '',
+      img: ''
     };
     setAttributes({
       tabs_data: [...tabs_data, newData]
@@ -859,24 +878,75 @@ function Edit({
       customClass: activeClass(tabBtnType, 1, '*')
     });
   }, [active_tab, tabBtnType, tabBtnBgColor, tabBtnBorderColor, tabBtnTextColor]);
-
-  // todo : child block have data but not working 
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useEffect)(() => {
-    var children = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_10__.select)('core/block-editor').getBlocksByClientId(clientId)[0].innerBlocks;
-    children.forEach(function (child) {
-      (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_10__.dispatch)('core/block-editor').updateBlockAttributes(child.clientId, {
-        activeTab: active_tab,
-        tabs
+  const removeTabImage = tabId => {
+    if (tabId) {
+      const updatedTabs = tabs_data.map(tab => {
+        if (tab.tabId === tabId) {
+          return {
+            ...tab,
+            img: null
+          };
+        }
+        return tab;
       });
-    });
-  }, [active_tab, tabs]);
+      setAttributes({
+        tabs_data: updatedTabs
+      });
+      const data = updatedTabs.find(td => td.tabId == tabId);
+      setActiveTd(data);
+    }
+  };
+  const onSelectURL = (url, tabId) => {
+    if (tabId) {
+      const updatedTabs = tabs_data.map(tab => {
+        if (tab.tabId === tabId) {
+          return {
+            ...tab,
+            img: url
+          };
+        }
+        return tab;
+      });
+      setAttributes({
+        tabs_data: updatedTabs
+      });
+      const data = updatedTabs.find(td => td.tabId == tabId);
+      setActiveTd(data);
+    }
+  };
+  const onSelectImage = (img, tabId) => {
+    if (tabId) {
+      const updatedTabs = tabs_data.map(tab => {
+        if (tab.tabId === tabId) {
+          return {
+            ...tab,
+            img: img.url
+          };
+        }
+        return tab;
+      });
+      setAttributes({
+        tabs_data: updatedTabs
+      });
+      const data = updatedTabs.find(td => td.tabId == tabId);
+      setActiveTd(data);
+    }
+  };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
     group: "inline"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToolbarButton, {
     onClick: () => deleteTab(active_tab)
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove Tab', 'demo-tabs'))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelBody, {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove Tab', 'demo-tabs')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToolbarButton, {
+    onClick: () => removeTabImage(active_tab)
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove Image', 'demo-tabs')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaReplaceFlow, {
+    name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Replace Image', 'demo-tabs'),
+    onSelect: image => onSelectImage(image, active_tab),
+    onSelectURL: newURL => onSelectURL(newURL, active_tab),
+    accept: "image/*",
+    allowedTypes: ['image']
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Tab Settings Panel', 'demo-tabs')
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.__experimentalToggleGroupControl, {
     onChange: state => setAttributes({
@@ -981,10 +1051,11 @@ function Edit({
     data: activeTd,
     setAttributes: setAttributes,
     tabs_data: tabs_data,
-    active_tab: active_tab
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
-    allowedBlocks: ['create-block/tab'],
-    template: [['create-block/tab']]
+    active_tab: active_tab,
+    mediaFunctions: {
+      onSelectImage,
+      onSelectURL
+    }
   }))))));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Edit);
@@ -1629,19 +1700,25 @@ function save({
     style: {
       color: tabsColor?.find(t => t.tabId == td.tabId)?.textColor,
       fontFamily: `${(fontFamily, fontCategory)}`,
-      fontWeight: fontWidth,
       textDecoration: textDecoration,
-      fontSize: fontSize,
-      lineHeight: lineHeight,
       letterSpacing: letterSpacing,
       fontStyle: fontVisualStyle
     },
+    className: "tab-title",
     value: td.title,
     tagName: tabHeadingTagName
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText.Content, {
+    style: {
+      fontSize: fontSize
+    },
     value: td.desc,
     tagName: "p"
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks.Content, null)))));
+  }), td?.img && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "tab-image"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    src: td?.img,
+    alt: "tab image"
+  })))))));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (save);
 
@@ -1668,10 +1745,12 @@ function Tab({
   setAttributes,
   tabs_data,
   active_tab,
-  attributes
+  attributes,
+  mediaFunctions
 }) {
   const title = data?.title;
   const desc = data?.desc;
+  const url = data?.img;
   const {
     tabHeadingTagName,
     tabsColor,
@@ -1682,8 +1761,13 @@ function Tab({
     textDecoration,
     lineHeight,
     fontSize,
-    letterSpacing
+    letterSpacing,
+    tabs
   } = attributes;
+  const {
+    onSelectImage,
+    onSelectURL
+  } = mediaFunctions;
   const onChangeTitle = (newTitle, tabId) => {
     if (tabId) {
       const updatedTabs = tabs_data.map(tab => {
@@ -1733,6 +1817,7 @@ function Tab({
       color: tabsColor?.find(t => t.tabId == active_tab)?.textColor,
       fontFamily: `${(fontFamily, fontCategory)}`
     },
+    className: "tab-title",
     tagName: tabHeadingTagName,
     value: title ? title : 'Enter a Title',
     onChange: e => {
@@ -1746,7 +1831,19 @@ function Tab({
     placeholder: "Enter description",
     onChange: e => onChangeDesc(e, data?.tabId, tabs_data),
     value: desc ? desc : 'enter description'
-  }));
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaPlaceholder, {
+    icon: "admin-users",
+    onSelect: url => onSelectImage(url, data.tabId),
+    onSelectURL: url => onSelectURL(url, data.tabId),
+    accept: "image/*",
+    allowedTypes: ['image'],
+    disableMediaButtons: url
+  }), url && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "tab-image"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    src: url,
+    alt: "tab image"
+  })));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Tab);
 
@@ -1837,16 +1934,6 @@ module.exports = window["wp"]["blocks"];
 /***/ ((module) => {
 
 module.exports = window["wp"]["components"];
-
-/***/ }),
-
-/***/ "@wordpress/data":
-/*!******************************!*\
-  !*** external ["wp","data"] ***!
-  \******************************/
-/***/ ((module) => {
-
-module.exports = window["wp"]["data"];
 
 /***/ }),
 

@@ -39,18 +39,21 @@
       "default": [
         {
           "tabId": "1",
-          "title": "demo title 1",
-          "desc": ""
+          "title": "",
+          "desc": "",
+          "img": ""
         },
         {
           "tabId": "2",
-          "title": "demo title 2",
-          "desc": ""
+          "title": "",
+          "desc": "",
+          "img": ""
         },
         {
           "tabId": "3",
-          "title": "demo title 3",
-          "desc": ""
+          "title": "",
+          "desc": "",
+          "img": ""
         }
       ]
     },
@@ -155,8 +158,23 @@
       "default": "default"
     },
     "fontWidth": {
-      "type": "number",
+      "type": "string",
       "default": "400"
+    },
+    "fontVariants": {
+      "type": "array",
+      "default": [
+        {
+          "label": "400",
+          "value": "400",
+          "id": 1
+        },
+        {
+          "label": "600",
+          "value": "600",
+          "id": 2
+        }
+      ]
     },
     "textDecoration": {
       "type": "string",

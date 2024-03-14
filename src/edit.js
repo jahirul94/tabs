@@ -4,7 +4,7 @@ import {
 	RichText,
 	BlockControls,
 	InspectorControls,
-	InnerBlocks,
+	MediaReplaceFlow
 } from '@wordpress/block-editor';
 import './editor.scss';
 import Tab from './tab';
@@ -15,16 +15,14 @@ import {
 	ToolbarButton,
 	__experimentalDivider as Divider,
 	__experimentalToggleGroupControl as ToggleGroupControl,
-	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
+	__experimentalToggleGroupControlOption as ToggleGroupControlOption
 } from '@wordpress/components';
 import GeneralSettings from './components/tabs/generalSettings';
 import StyleSettings from './components/tabs/styleSettings';
 import AdvanceSettings from './components/tabs/advanceSettings';
-import { select, dispatch } from '@wordpress/data';
 
 
 function Edit({ attributes, setAttributes, clientId }) {
-
 	const {
 		tabs,
 		active_tab,
@@ -74,6 +72,7 @@ function Edit({ attributes, setAttributes, clientId }) {
 			tabId: `${tabId}`,
 			title: `demo title ${tabId}`,
 			desc: '',
+			img: '',
 		};
 		setAttributes({ tabs_data: [...tabs_data, newData] });
 
@@ -150,13 +149,48 @@ function Edit({ attributes, setAttributes, clientId }) {
 		tabBtnTextColor,
 	]);
 
-	// todo : child block have data but not working 
-	useEffect(() => {
-		var children = select('core/block-editor').getBlocksByClientId(clientId)[0].innerBlocks;
-		children.forEach(function (child) {
-			dispatch('core/block-editor').updateBlockAttributes(child.clientId, { activeTab: active_tab, tabs })
-		});
-	}, [active_tab, tabs])
+	const removeTabImage = (tabId) => {
+		if (tabId) {
+			const updatedTabs = tabs_data.map((tab) => {
+				if (tab.tabId === tabId) {
+					return { ...tab, img: null };
+				}
+				return tab;
+			});
+			setAttributes({ tabs_data: updatedTabs });
+			const data = updatedTabs.find((td) => td.tabId == tabId);
+			setActiveTd(data)
+		}
+	}
+
+	const onSelectURL = (url, tabId) => {
+		if (tabId) {
+			const updatedTabs = tabs_data.map((tab) => {
+				if (tab.tabId === tabId) {
+					return { ...tab, img: url };
+				}
+				return tab;
+			});
+			setAttributes({ tabs_data: updatedTabs });
+			const data = updatedTabs.find((td) => td.tabId == tabId);
+			setActiveTd(data)
+		}
+	}
+
+	const onSelectImage = (img, tabId) => {
+		if (tabId) {
+			const updatedTabs = tabs_data.map((tab) => {
+				if (tab.tabId === tabId) {
+					return { ...tab, img: img.url };
+				}
+				return tab;
+			});
+			setAttributes({ tabs_data: updatedTabs });
+			const data = updatedTabs.find((td) => td.tabId == tabId);
+			setActiveTd(data)
+		}
+
+	}
 
 
 	return (
@@ -165,6 +199,20 @@ function Edit({ attributes, setAttributes, clientId }) {
 				<ToolbarButton onClick={() => deleteTab(active_tab)}>
 					{__('Remove Tab', 'demo-tabs')}
 				</ToolbarButton>
+				<ToolbarButton onClick={() => removeTabImage(active_tab)}>
+					{__('Remove Image', 'demo-tabs')}
+				</ToolbarButton>
+				<MediaReplaceFlow
+					name={__('Replace Image', 'demo-tabs')}
+					onSelect={(image) =>
+						onSelectImage(image, active_tab)
+					}
+					onSelectURL={(newURL) =>
+						onSelectURL(newURL, active_tab)
+					}
+					accept="image/*"
+					allowedTypes={['image']}
+				/>
 			</BlockControls>
 			<InspectorControls>
 				<PanelBody title={__('Tab Settings Panel', 'demo-tabs')}>
@@ -352,13 +400,8 @@ function Edit({ attributes, setAttributes, clientId }) {
 								setAttributes={setAttributes}
 								tabs_data={tabs_data}
 								active_tab={active_tab}
+								mediaFunctions={{ onSelectImage, onSelectURL }}
 							></Tab>
-							<InnerBlocks
-								allowedBlocks={['create-block/tab']}
-								template={[
-									['create-block/tab'],
-								]}
-							/>
 						</div>
 					))}
 				</div>

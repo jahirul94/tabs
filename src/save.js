@@ -133,19 +133,21 @@ function save({ attributes }) {
 									)?.textColor,
 									fontFamily: `${(fontFamily, fontCategory)
 										}`,
-									fontWeight: fontWidth,
 									textDecoration: textDecoration,
-									fontSize: fontSize,
-									lineHeight: lineHeight,
 									letterSpacing: letterSpacing,
 									fontStyle: fontVisualStyle,
 								}}
+								className='tab-title'
 								value={td.title}
 								tagName={tabHeadingTagName}
 							/>
-							<RichText.Content value={td.desc} tagName="p" />
+							<RichText.Content style={{ fontSize: fontSize, }} value={td.desc} tagName="p" />
+							{td?.img && (
+								<div className='tab-image'>
+									<img src={td?.img} alt='tab image' />
+								</div>
+							)}
 						</div>
-						<InnerBlocks.Content />
 					</div>
 				))}
 			</div>

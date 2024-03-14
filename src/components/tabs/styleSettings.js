@@ -18,7 +18,7 @@ import { PanelColorSettings } from '@wordpress/block-editor';
 import { useEffect, useState } from '@wordpress/element';
 import { API_KEY } from '../../local';
 
-const StyleSettings = ( { attributes, setAttributes } ) => {
+const StyleSettings = ({ attributes, setAttributes }) => {
 	const {
 		active_tab,
 		tabsColor,
@@ -40,57 +40,57 @@ const StyleSettings = ( { attributes, setAttributes } ) => {
 		tabPadding,
 		tabBorder,
 		tabBorderRadius,
+		fontVariants,
 	} = attributes;
 
-	const [ fontFamilies, setFontFamilies ] = useState( [] );
-	const [ allFonts, setAllFonts ] = useState( [] );
+	const [fontFamilies, setFontFamilies] = useState([]);
+	const [allFonts, setAllFonts] = useState([]);
 
-	useEffect( () => {
-		const apiUrl = `https://www.googleapis.com/webfonts/v1/webfonts?key=${ API_KEY }`;
-		fetch( apiUrl )
-			.then( ( res ) => res.json() )
-			.then( ( data ) => {
+	useEffect(() => {
+		const apiUrl = `https://www.googleapis.com/webfonts/v1/webfonts?key=${API_KEY}`;
+		fetch(apiUrl)
+			.then((res) => res.json())
+			.then((data) => {
 				const allFonts = data.items;
-				setAllFonts( allFonts );
-				const labels = allFonts.map( ( f, i ) => ( {
+				setAllFonts(allFonts);
+				const labels = allFonts.map((f, i) => ({
 					label: f.family,
 					variants: f.variants,
 					id: i,
-				} ) );
-				// console.log(allFonts)
-				setFontFamilies( labels );
-			} )
-			.catch( ( error ) => {
-				console.error( 'Error fetching fonts:', error );
-			} );
-	}, [] );
+				}));
+				setFontFamilies(labels);
+			})
+			.catch((error) => {
+				console.error('Error fetching fonts:', error);
+			});
+	}, []);
 
 	// function for change tab content color and background color
-	const onChangeTabColor = ( color, activeTab, action ) => {
-		if ( activeTab ) {
-			const updatedTabsColor = tabsColor?.map( ( tc ) => {
-				if ( tc.tabId == activeTab ) {
-					if ( action === 'textColor' ) {
+	const onChangeTabColor = (color, activeTab, action) => {
+		if (activeTab) {
+			const updatedTabsColor = tabsColor?.map((tc) => {
+				if (tc.tabId == activeTab) {
+					if (action === 'textColor') {
 						return { ...tc, textColor: color };
 					} else {
 						return { ...tc, bgColor: color };
 					}
 				}
 				return tc;
-			} );
-			setAttributes( { tabsColor: updatedTabsColor } );
+			});
+			setAttributes({ tabsColor: updatedTabsColor });
 		}
 	};
 
 	return (
 		<div>
-			{ /* buttons styles  */ }
-			<MenuGroup label={ __( 'Tab Button Settings', 'demo-tabs' ) }>
+			{ /* buttons styles  */}
+			<MenuGroup label={__('Tab Button Settings', 'demo-tabs')}>
 				<MenuGroup>
-					<ButtonGroup style={ { display: 'flex' } }>
+					<ButtonGroup style={{ display: 'flex' }}>
 						<Button
-							onClick={ () =>
-								setAttributes( { tabBtnType: 'primary' } )
+							onClick={() =>
+								setAttributes({ tabBtnType: 'primary' })
 							}
 							className="button-tb-alignment"
 							variant="primary"
@@ -98,8 +98,8 @@ const StyleSettings = ( { attributes, setAttributes } ) => {
 							Primary
 						</Button>
 						<Button
-							onClick={ () =>
-								setAttributes( { tabBtnType: 'secondary' } )
+							onClick={() =>
+								setAttributes({ tabBtnType: 'secondary' })
 							}
 							className="button-tb-alignment"
 							variant="secondary"
@@ -107,8 +107,8 @@ const StyleSettings = ( { attributes, setAttributes } ) => {
 							Secondary
 						</Button>
 						<Button
-							onClick={ () =>
-								setAttributes( { tabBtnType: 'custom' } )
+							onClick={() =>
+								setAttributes({ tabBtnType: 'custom' })
 							}
 							className="button-tb-alignment"
 							variant="secondary"
@@ -117,21 +117,21 @@ const StyleSettings = ( { attributes, setAttributes } ) => {
 						</Button>
 					</ButtonGroup>
 
-					{ tabBtnType === 'custom' && (
+					{tabBtnType === 'custom' && (
 						<PanelColorSettings
-							title={ __(
+							title={__(
 								'Tab Button Color Settings',
 								'demo-tabs'
-							) }
+							)}
 							icon="admin-appearance"
 							initialOpen
-							disableCustomColors={ false }
-							colorSettings={ [
+							disableCustomColors={false}
+							colorSettings={[
 								{
-									label: __( 'Text Color', 'demo-tabs' ),
+									label: __('Text Color', 'demo-tabs'),
 									value: tabBtnTextColor,
-									onChange: ( c ) => {
-										setAttributes( { tabBtnTextColor: c } );
+									onChange: (c) => {
+										setAttributes({ tabBtnTextColor: c });
 									},
 								},
 								tabBtnType !== 'secondary' && {
@@ -140,17 +140,17 @@ const StyleSettings = ( { attributes, setAttributes } ) => {
 										'demo-tabs'
 									),
 									value: tabBtnBgColor,
-									onChange: ( bg ) => {
-										setAttributes( { tabBtnBgColor: bg } );
+									onChange: (bg) => {
+										setAttributes({ tabBtnBgColor: bg });
 									},
 								},
 								{
-									label: __( 'Border Color', 'demo-tabs' ),
+									label: __('Border Color', 'demo-tabs'),
 									value: tabBtnBorderColor,
-									onChange: ( br ) => {
-										setAttributes( {
+									onChange: (br) => {
+										setAttributes({
 											tabBtnBorderColor: br,
-										} );
+										});
 									},
 								},
 								{
@@ -159,8 +159,8 @@ const StyleSettings = ( { attributes, setAttributes } ) => {
 										'demo-tabs'
 									),
 									value: activeBtnColor,
-									onChange: ( ac ) => {
-										setAttributes( { activeBtnColor: ac } );
+									onChange: (ac) => {
+										setAttributes({ activeBtnColor: ac });
 									},
 								},
 								{
@@ -169,49 +169,49 @@ const StyleSettings = ( { attributes, setAttributes } ) => {
 										'demo-tabs'
 									),
 									value: hoverBtnColor,
-									onChange: ( hc ) => {
-										setAttributes( { hoverBtnColor: hc } );
+									onChange: (hc) => {
+										setAttributes({ hoverBtnColor: hc });
 									},
 								},
-							] }
+							]}
 						/>
-					) }
+					)}
 				</MenuGroup>
 				<Divider />
 				<ToggleControl
 					label="Enable Border Radius"
-					checked={ hasBorderRadius }
-					onChange={ ( newValue ) => {
-						setAttributes( {
+					checked={hasBorderRadius}
+					onChange={(newValue) => {
+						setAttributes({
 							btnBorderRadius: 0,
 							hasBorderRadius: newValue,
-						} );
-					} }
+						});
+					}}
 				/>
-				{ hasBorderRadius && (
+				{hasBorderRadius && (
 					<RangeControl
-						value={ btnBorderRadius }
+						value={btnBorderRadius}
 						label="Add Border Radius"
-						min={ 0 }
-						max={ 50 }
-						onChange={ ( val ) => {
-							setAttributes( { btnBorderRadius: val } );
-						} }
+						min={0}
+						max={50}
+						onChange={(val) => {
+							setAttributes({ btnBorderRadius: val });
+						}}
 					/>
-				) }
+				)}
 			</MenuGroup>
 			<Divider />
 			<PanelColorSettings
-				title={ __( 'Tab Content Color Settings', 'demo-tabs' ) }
+				title={__('Tab Content Color Settings', 'demo-tabs')}
 				icon="admin-appearance"
 				initialOpen
-				disableCustomColors={ false }
-				colorSettings={ [
+				disableCustomColors={false}
+				colorSettings={[
 					{
-						label: __( 'Text Color', 'demo-tabs' ),
-						value: tabsColor?.find( ( t ) => t.tabId == active_tab )
+						label: __('Text Color', 'demo-tabs'),
+						value: tabsColor?.find((t) => t.tabId == active_tab)
 							?.textColor,
-						onChange: ( newColor ) => {
+						onChange: (newColor) => {
 							onChangeTabColor(
 								newColor,
 								active_tab,
@@ -220,87 +220,105 @@ const StyleSettings = ( { attributes, setAttributes } ) => {
 						},
 					},
 					{
-						label: __( 'Background Color', 'demo-tabs' ),
-						value: tabsColor?.find( ( t ) => t.tabId == active_tab )
+						label: __('Background Color', 'demo-tabs'),
+						value: tabsColor?.find((t) => t.tabId == active_tab)
 							?.bgColor,
-						onChange: ( newColor ) => {
-							onChangeTabColor( newColor, active_tab, 'bgColor' );
+						onChange: (newColor) => {
+							onChangeTabColor(newColor, active_tab, 'bgColor');
 						},
 					},
-				] }
+				]}
 			/>
 			<Divider />
-			{ /* typography  */ }
+			{ /* typography  */}
 			<div
-				style={ {
+				style={{
 					display: 'flex',
 					justifyContent: 'space-between',
 					alignItems: 'center',
-				} }
+				}}
 			>
 				<h2>TYPOGRAPHY</h2>
 				<DropdownMenu icon="admin-customizer">
-					{ ( { onClose } ) => (
-						<div style={ { width: '240px' } }>
+					{({ onClose }) => (
+						<div style={{ width: '240px' }}>
 							<SelectControl
-								label={ __(
+								label={__(
 									'Select Font Family',
 									'demo-tabs'
-								) }
-								value={ fontFamily }
-								options={ fontFamilies }
-								onChange={ ( value ) => {
+								)}
+								value={fontFamily}
+								options={fontFamilies}
+								onChange={(value) => {
 									const font = allFonts.find(
-										( f ) => f.family === value
+										(f) => f.family === value
 									);
-									setAttributes( {
+
+									const fontVariantsLabel = (
+										font?.variants || [])
+										.filter((f) => !isNaN(f))
+										.map((f, i) => ({
+											label: f,
+											value: f,
+											id: i,
+										}));
+
+									const defaultVariants = [{
+										label: 400,
+										value: 400,
+										id: 1
+									},
+									{
+										label: 600,
+										value: 600,
+										id: 2
+									}];
+									setAttributes({
 										fontFamily: font.family,
 										fontCategory: font.category,
-									} );
-								} }
+										fontVariants: fontVariantsLabel.length > 1 ? fontVariantsLabel : defaultVariants
+									});
+								}}
 							/>
 							<MenuGroup
-								label={ __( 'Font Style', 'demo-tabs' ) }
+								label={__('Font Style', 'demo-tabs')}
 							>
 								<SelectControl
-									value={ fontVisualStyle }
-									options={ [
+									value={fontVisualStyle}
+									options={[
 										{ label: 'Default', value: 'normal' },
 										{ label: 'Italic', value: 'italic' },
-									] }
-									onChange={ ( change ) => {
-										setAttributes( {
+									]}
+									onChange={(change) => {
+										setAttributes({
 											fontVisualStyle: change,
-										} );
-									} }
+										});
+									}}
 									__nextHasNoMarginBottom
 								/>
 							</MenuGroup>
 							<MenuGroup
-								label={ __( 'Font Width', 'demo-tabs' ) }
+								label={__('Font Width', 'demo-tabs')}
 							>
 								<SelectControl
-									value={ fontWidth }
-									options={ [
-										{ label: '400', value: '400' },
-										{ label: '600', value: '600' },
-									] }
-									onChange={ ( change ) => {
-										setAttributes( { fontWidth: change } );
-									} }
+									value={fontWidth}
+									options={fontVariants}
+									onChange={(change) => {
+										setAttributes({ fontWidth: change });
+									}}
 									__nextHasNoMarginBottom
 								/>
 							</MenuGroup>
 							<MenuGroup
-								label={ __( 'Text Decoration', 'demo-tabs' ) }
+								label={__('Text Decoration', 'demo-tabs')}
 							>
 								<ToggleGroupControl
-									onChange={ ( state ) => {
-										setAttributes( {
+									onChange={(state) => {
+										setAttributes({
 											textDecoration: state,
-										} );
-									} }
-									value={ textDecoration }
+										});
+									}}
+									value={textDecoration}
 									isBlock
 								>
 									<ToggleGroupControlOption
@@ -328,71 +346,71 @@ const StyleSettings = ( { attributes, setAttributes } ) => {
 								</ToggleGroupControl>
 							</MenuGroup>
 							<MenuGroup
-								label={ __( 'Select Font Size', 'demo-tabs' ) }
+								label={__('Select Font Size', 'demo-tabs')}
 							>
 								<RangeControl
-									value={ fontSize }
-									min={ 10 }
-									max={ 30 }
-									onChange={ ( v ) => {
-										setAttributes( { fontSize: v } );
-									} }
+									value={fontSize}
+									min={10}
+									max={30}
+									onChange={(v) => {
+										setAttributes({ fontSize: v });
+									}}
 								/>
 							</MenuGroup>
 							<MenuGroup
-								label={ __( 'Letter Spacing', 'demo-tabs' ) }
+								label={__('Letter Spacing', 'demo-tabs')}
 							>
 								<RangeControl
-									value={ letterSpacing }
-									min={ 0 }
-									max={ 15 }
-									onChange={ ( v ) => {
-										setAttributes( { letterSpacing: v } );
-									} }
+									value={letterSpacing}
+									min={0}
+									max={15}
+									onChange={(v) => {
+										setAttributes({ letterSpacing: v });
+									}}
 								/>
 							</MenuGroup>
 							<MenuGroup
-								label={ __( 'Line Height', 'demo-tabs' ) }
+								label={__('Line Height', 'demo-tabs')}
 							>
 								<RangeControl
-									value={ lineHeight }
-									min={ 0 }
-									max={ 6 }
-									onChange={ ( v ) => {
-										setAttributes( { lineHeight: v } );
-									} }
+									value={lineHeight}
+									min={0}
+									max={6}
+									onChange={(v) => {
+										setAttributes({ lineHeight: v });
+									}}
 								/>
 							</MenuGroup>
 						</div>
-					) }
+					)}
 				</DropdownMenu>
 			</div>
-			{ /* typography  */ }
+			{ /* typography  */}
 			<Divider />
 			<BoxControl
-				label={ __( 'Tab Padding', 'demo-tabs' ) }
-				values={ tabPadding }
-				onChange={ ( nextValues ) => {
-					setAttributes( { tabPadding: nextValues } );
-				} }
+				label={__('Tab Padding', 'demo-tabs')}
+				values={tabPadding}
+				onChange={(nextValues) => {
+					setAttributes({ tabPadding: nextValues });
+				}}
 			/>
 			<Divider />
 			<BorderControl
-				label={ __( 'Tab Border', 'demo-tabs' ) }
-				onChange={ ( newBorder ) => {
-					setAttributes( { tabBorder: newBorder } );
-				} }
-				value={ tabBorder }
+				label={__('Tab Border', 'demo-tabs')}
+				onChange={(newBorder) => {
+					setAttributes({ tabBorder: newBorder });
+				}}
+				value={tabBorder}
 			/>
 			<Divider />
 			<RangeControl
-				label={ __( 'Tab Border Radius', 'demo-tabs' ) }
-				value={ tabBorderRadius }
-				min={ 0 }
-				max={ 200 }
-				onChange={ ( v ) => {
-					setAttributes( { tabBorderRadius: v } );
-				} }
+				label={__('Tab Border Radius', 'demo-tabs')}
+				value={tabBorderRadius}
+				min={0}
+				max={200}
+				onChange={(v) => {
+					setAttributes({ tabBorderRadius: v });
+				}}
 			/>
 		</div>
 	);
